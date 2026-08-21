@@ -1,0 +1,26 @@
+name: ci-app
+
+on:
+  push:
+    branches:
+    - 'feat/**'
+    - 'fix/**'
+    paths:
+    - 'solidariedade-local-app/**'
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Instalacao das dependencias
+        run: npm ci
+        working-directory: solidariedade-local-app
+
+      - name: Execucao dos testes automatizados
+        run: npm test
+        working-directory: solidariedade-local-app
