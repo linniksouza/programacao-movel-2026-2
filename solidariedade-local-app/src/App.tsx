@@ -1,21 +1,13 @@
 import { StatusBar } from 'expo-status-bar';
-import { Button, StyleSheet, Text, View } from 'react-native';
+import { View } from 'react-native';
+
+import { DemandasScreen } from './screens/demandas';
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Seja bem vindo ao Solidariedade Local</Text>
-      <Button title="Tela inicial" />
+    <View>
+      <DemandasScreen />
       <StatusBar style="auto" />
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
