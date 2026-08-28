@@ -1,13 +1,14 @@
 import { StatusBar } from 'expo-status-bar';
-import { View } from 'react-native';
+import { PaperProvider } from 'react-native-paper';
 
 import { DemandasScreen } from './screens/demandas';
+import { AppTheme } from './ui/themes';
 
 export default function App() {
   return (
-    <View>
+    <PaperProvider theme={AppTheme}>
       <DemandasScreen />
       <StatusBar style="auto" />
-    </View>
+    </PaperProvider>
   );
 }

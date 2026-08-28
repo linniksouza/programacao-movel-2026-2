@@ -1,79 +1,43 @@
-import { Button, Image, StyleSheet, Text, TextInput, View } from "react-native";
+import { StyleSheet, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { Surface, Text } from "react-native-paper";
+
+import { Cabecalho } from "../../ui/components/Cabecalho";
+import { FiltroBusca } from "../../ui/components/FiltroBusca";
+import { CardDemanda } from "../../ui/components/CardDemanda";
 
 const DemandasScreen = () => {
 
     return (
-        <View style={styles.container}>
-            {/* Cabeçalho */}
-            <View style={styles.cabecalho}>
-                <View>
-                    <Text style={styles.saudacaoUsuario}>
-                        Olá, Linnik!
-                    </Text>
-                    <Text style={styles.orientacoes}>
-                        Veja as necessidades de hoje
-                    </Text>
+        <SafeAreaView style={styles.container}>
+            <Surface style={styles.surface}  elevation={0}>
+                {/* Cabeçalho */}
+                <Cabecalho />
+
+                {/* Filtros de busca */}
+                <FiltroBusca />
+
+                {/* Lista de demandas */}
+                <View style={styles.listaDemandas}>
+                    <Text variant="titleLarge">Demandas</Text>
+
+                    <CardDemanda />
                 </View>
-
-                <View>
-                    <Button title="Notificações" />
-                </View>
-            </View>
-
-            {/* Filtros de busca */}
-            <View>
-                <TextInput placeholder="Buscar demandas...." />
-                <Button title="Filtros" />
-            </View>
-
-            {/* Lista de demandas */}
-            <View>
-                <Text>Demandas</Text>
-
-                <View>
-                    {/* <Image
-                        style={styles.imagemInstituicao}
-                        source={require("../../../assets/lar-esperanca.jpg")}
-                    /> */}
-
-                    <Text>Lar Esperança</Text>
-                    <Text>Alimentos não perecíveis</Text>
-                    <Text>Arroz, feijão, óleo e açúcar</Text>
-                    <Text>Compensa</Text>
-                </View>
-            </View>
-        </View>
+            </Surface>
+        </SafeAreaView>
     );
 };
 
 const styles = StyleSheet.create({
     container: {
-        // flex: 1,
-        // justifyContent: "center"
+        flex: 1
     },
-    cabecalho: {
-        flex: 1,
-        flexDirection: "row",
-        justifyContent: "space-between",
-        backgroundColor: "#5B2DB8",
-        color: "#fffff"
+    surface: {
+        flex: 1
     },
-    saudacaoUsuario: {
-        color: "#ffffff",
-        fontSize: 20
+    listaDemandas: {
+        margin: 10
     },
-    orientacoes: {
-        color: "#ffffff"
-    },
-    filtroBuscas: {
-        flex: 1,
-        flexDirection: "row",
-        justifyContent: "space-between"
-    },
-    imagemInstituicao: {
-        width: 120,
-        height: 100
-    }
 });
 
 export { DemandasScreen };
