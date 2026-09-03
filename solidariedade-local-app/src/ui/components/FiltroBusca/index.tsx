@@ -8,10 +8,12 @@ const FiltroBusca = () => {
     return (
         <View style={styles.filtroBuscas}>
             <Searchbar
+                testID="input-buscar-demandas"
+                placeholder="Buscar demandas..."
                 value={busca}
                 onChangeText={setBusca}
-                style={styles.inputBuscarDemandas}
-                placeholder="Buscar demandas...."
+                style={styles.barraBuscarDemandas}
+                inputStyle={styles.inputBuscaDemandas}
             />
             <Button
                 mode="contained"
@@ -33,10 +35,13 @@ const styles = StyleSheet.create({
         padding: 10,
         gap: 8
     },
-    inputBuscarDemandas: {
+    barraBuscarDemandas: {
         flex: 1,
         borderRadius: 10,
         backgroundColor: "#f5f5f5"
+    },
+    inputBuscaDemandas: {
+        minHeight: 0
     },
     botaoFiltro: {
         justifyContent: "center",

@@ -2,9 +2,9 @@ import { StyleSheet, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Surface, Text } from "react-native-paper";
 
-import { Cabecalho } from "../../ui/components/Cabecalho";
-import { FiltroBusca } from "../../ui/components/FiltroBusca";
-import { CardDemanda } from "../../ui/components/CardDemanda";
+import { Cabecalho } from "@/ui/components/Cabecalho";
+import { FiltroBusca } from "@/ui/components/FiltroBusca";
+import { CardDemanda } from "@/ui/components/CardDemanda";
 
 const DemandasScreen = () => {
 
@@ -19,7 +19,9 @@ const DemandasScreen = () => {
 
                 {/* Lista de demandas */}
                 <View style={styles.listaDemandas}>
-                    <Text variant="titleLarge">Demandas</Text>
+                    <Text variant="titleLarge" style={styles.tituloSecaoListaDemandas}>
+                        Demandas
+                    </Text>
 
                     <CardDemanda />
                 </View>
@@ -38,6 +40,10 @@ const styles = StyleSheet.create({
     listaDemandas: {
         margin: 10
     },
+    tituloSecaoListaDemandas: {
+        fontSize: 20,
+        fontWeight: "bold"
+    }
 });
 
 export { DemandasScreen };

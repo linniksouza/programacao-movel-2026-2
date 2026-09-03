@@ -5,13 +5,13 @@ const CardDemanda = () => {
 
     return (
         <Card style={styles.cardDemandas} mode="outlined">
-            <Card.Content style={styles.conteudoCardDemandas}>
+            <View style={styles.conteudoCardDemandas}>
                 <Card.Cover
                     style={styles.imagemInstituicao}
                     source={require("../../../../assets/lar-esperanca.jpg")}
                 />
 
-                <View>
+                <Card.Content style={styles.detalhesCardDemandas}>
                     <Text variant="titleLarge" style={styles.nomeInstituicao}>
                         Lar Esperança
                     </Text>
@@ -24,42 +24,45 @@ const CardDemanda = () => {
                     <Text variant="bodySmall" style={styles.localizacaoInstituicao}>
                         Compensa
                     </Text>
-                </View>
-            </Card.Content>
+                </Card.Content>
+            </View>
         </Card>
     );
 };
 
 const styles = StyleSheet.create({
     cardDemandas: {
-        borderRadius: 10,
         marginVertical: 10,
+        borderRadius: 10,
         backgroundColor: "#ffffff"
     },
     conteudoCardDemandas: {
         flexDirection: "row",
-        gap: 20,
+        alignItems: "center",
+        padding: 10,
+        gap: 15,
     },
     imagemInstituicao: {
         width: 120,
-        height: 100
+        height: 100,
+        borderRadius: 10
+    },
+    detalhesCardDemandas: {
+        flex: 1,
+        padding: 0
     },
     nomeInstituicao: {
-        // fontSize: 20,
         fontWeight: "bold"
     },
     objetivoDemanda: {
-        fontSize: 18,
-        fontWeight: "500",
-        marginTop: 8
+        marginVertical: 2
     },
     itensDoacao: {
-        fontSize: 15,
-        marginBottom: 5
+        opacity: 0.6,
+        marginBottom: 2
     },
     localizacaoInstituicao: {
-        fontSize: 13,
-        marginBottom: 5
+        opacity: 0.6
     }
 });
 

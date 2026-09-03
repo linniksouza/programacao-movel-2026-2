@@ -1,10 +1,11 @@
-import { Button, StyleSheet, View } from "react-native";
-import { IconButton, Text } from "react-native-paper";
+import { StyleSheet, View } from "react-native";
+import { IconButton, Text, useTheme } from "react-native-paper";
 
 const Cabecalho = () => {
+    const theme = useTheme();
 
     return (
-        <View style={[styles.cabecalho]}>
+        <View testID="container-cabecalho" style={[styles.cabecalho, { backgroundColor: theme.colors.primary }]}>
             <View>
                 <Text variant="titleLarge" style={styles.saudacaoUsuario}>
                     Olá, Linnik!
@@ -33,10 +34,10 @@ const styles = StyleSheet.create({
         paddingTop: 50,
         paddingBottom: 20,
         paddingHorizontal: 10,
-        backgroundColor: "#5B2DB8",
     },
     saudacaoUsuario: {
         color: "#ffffff",
+        fontWeight: "bold"
     },
     orientacoes: {
         color: "#ffffff",
