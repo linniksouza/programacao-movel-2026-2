@@ -1,28 +1,34 @@
 import { StyleSheet, View } from "react-native";
 import { Card, Text } from "react-native-paper";
 
-const CardDemanda = () => {
+import { Demanda } from "@/data/models/demanda.mode";
+
+type CardDemandaProps = {
+    demanda: Demanda;
+};
+
+const CardDemanda = ({ demanda }: CardDemandaProps) => {
 
     return (
         <Card style={styles.cardDemandas} mode="outlined">
             <View style={styles.conteudoCardDemandas}>
                 <Card.Cover
                     style={styles.imagemInstituicao}
-                    source={require("../../../../assets/lar-esperanca.jpg")}
+                    source={{ uri: demanda.imagemInstituicao }}
                 />
 
                 <Card.Content style={styles.detalhesCardDemandas}>
                     <Text variant="titleLarge" style={styles.nomeInstituicao}>
-                        Lar Esperança
+                        {demanda.nomeInstituicao}
                     </Text>
                     <Text variant="bodyMedium" style={styles.objetivoDemanda}>
-                        Alimentos não perecíveis
+                        {demanda.necessidadesInstituicao}
                     </Text>
                     <Text variant="bodySmall" style={styles.itensDoacao}>
-                        Arroz, feijão, óleo e açúcar
+                        {demanda.itensDoacao}
                     </Text>
                     <Text variant="bodySmall" style={styles.localizacaoInstituicao}>
-                        Compensa
+                        {demanda.localizacaoInstituicao}
                     </Text>
                 </Card.Content>
             </View>

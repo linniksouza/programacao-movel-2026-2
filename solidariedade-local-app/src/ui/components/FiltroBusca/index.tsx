@@ -2,8 +2,17 @@ import { useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { Button, Searchbar } from "react-native-paper";
 
-const FiltroBusca = () => {
+type FiltroBuscaProps = {
+    onFiltrarDemandas: (sentenca: string) => void;
+};
+
+const FiltroBusca = ({ onFiltrarDemandas }: FiltroBuscaProps) => {
     const [busca, setBusca] = useState("");
+
+    const onChangeFiltro = (value: string) => {
+        setBusca(value);
+        onFiltrarDemandas(value);
+    };
 
     return (
         <View style={styles.filtroBuscas}>
@@ -11,7 +20,8 @@ const FiltroBusca = () => {
                 testID="input-buscar-demandas"
                 placeholder="Buscar demandas..."
                 value={busca}
-                onChangeText={setBusca}
+                onChangeText={onChangeFiltro}
+                onClearIconPress={() => onChangeFiltro("")}
                 style={styles.barraBuscarDemandas}
                 inputStyle={styles.inputBuscaDemandas}
             />
