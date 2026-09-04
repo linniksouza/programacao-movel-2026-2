@@ -1,30 +1,45 @@
-import { StyleSheet, View } from "react-native";
+import { useState } from "react";
+import { StyleSheet } from "react-native";
+import { Surface } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Surface, Text } from "react-native-paper";
 
+import { buscarDemandas } from "@/data/api/buscar-demandas";
+import { Demanda } from "@/data/models/demanda.mode";
 import { Cabecalho } from "@/ui/components/Cabecalho";
 import { FiltroBusca } from "@/ui/components/FiltroBusca";
-import { CardDemanda } from "@/ui/components/CardDemanda";
+import { ListaDemandas } from "@/ui/components/ListaDemandas";
 
 const DemandasScreen = () => {
+    const demandas = buscarDemandas();
+    const [sentencaBusca, setSentencaBusca] = useState("");
+
+    const filtrarDemandas = (demanda: Demanda) => {
+        const termo = sentencaBusca.trim().toLowerCase();
+
+        if(!termo)
+            return true;
+
+        return (
+            demanda.nomeInstituicao.toLowerCase().includes(termo) ||
+            demanda.necessidadesInstituicao.toLowerCase().includes(termo) ||
+            demanda.itensDoacao.toLowerCase().includes(termo) ||
+            demanda.localizacaoInstituicao.toLowerCase().includes(termo)
+        )
+    };
+
+    const demandasFiltradas = demandas.filter(filtrarDemandas);
 
     return (
         <SafeAreaView style={styles.container}>
-            <Surface style={styles.surface}  elevation={0}>
+            <Surface style={styles.surface} elevation={0}>
                 {/* Cabeçalho */}
                 <Cabecalho />
 
                 {/* Filtros de busca */}
-                <FiltroBusca />
+                <FiltroBusca onFiltrarDemandas={setSentencaBusca} />
 
                 {/* Lista de demandas */}
-                <View style={styles.listaDemandas}>
-                    <Text variant="titleLarge" style={styles.tituloSecaoListaDemandas}>
-                        Demandas
-                    </Text>
-
-                    <CardDemanda />
-                </View>
+                <ListaDemandas demandas={demandasFiltradas} />
             </Surface>
         </SafeAreaView>
     );
@@ -36,13 +51,6 @@ const styles = StyleSheet.create({
     },
     surface: {
         flex: 1
-    },
-    listaDemandas: {
-        margin: 10
-    },
-    tituloSecaoListaDemandas: {
-        fontSize: 20,
-        fontWeight: "bold"
     }
 });
 
