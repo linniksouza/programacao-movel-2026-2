@@ -5,12 +5,18 @@ import { Demanda } from "@/data/models/demanda.mode";
 
 type CardDemandaProps = {
     demanda: Demanda;
+    onPress: () => void;
 };
 
-const CardDemanda = ({ demanda }: CardDemandaProps) => {
+const CardDemanda = ({ demanda, onPress }: CardDemandaProps) => {
 
     return (
-        <Card style={styles.cardDemandas} mode="outlined">
+        <Card
+            testID="container-card-demanda"
+            onPress={onPress}
+            style={styles.cardDemandas}
+            mode="outlined"
+        >
             <View style={styles.conteudoCardDemandas}>
                 <Card.Cover
                     style={styles.imagemInstituicao}

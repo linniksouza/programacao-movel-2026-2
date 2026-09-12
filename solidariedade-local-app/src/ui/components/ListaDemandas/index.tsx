@@ -1,8 +1,9 @@
+import { useNavigation } from "@react-navigation/native";
 import { FlatList, StyleSheet, View } from "react-native";
 import { Text } from "react-native-paper";
 
 import { Demanda } from "@/data/models/demanda.mode";
-import { CardDemanda } from "../CardDemanda";
+import { CardDemanda } from "@/ui/components/CardDemanda";
 
 type ListaDemandasProps = {
     demandas: Demanda[];
@@ -13,8 +14,14 @@ type RenderDemandaParams = {
 };
 
 const ListaDemandas = ({ demandas }: ListaDemandasProps) => {
+    const navigation = useNavigation();
     const renderDemanda = ({ item }: RenderDemandaParams) => {
-        return <CardDemanda demanda={item} />;
+        return (
+            <CardDemanda
+                demanda={item}
+                onPress={() => navigation.navigate("RegistrarDoacao", { idDemanda: item.id })}
+            />
+        );
     };
     const keyExtractorDemanda = (item: Demanda) => {
         return item.id;
