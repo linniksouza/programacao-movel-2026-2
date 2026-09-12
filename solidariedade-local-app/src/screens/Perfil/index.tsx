@@ -1,7 +1,8 @@
-import { Cabecalho } from "@/ui/components/Cabecalho";
 import { StyleSheet, View } from "react-native";
 import { Surface, Switch, Text } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
+
+import { Cabecalho } from "@/ui/components/Cabecalho";
 
 const PerfilScreen = () => {
 

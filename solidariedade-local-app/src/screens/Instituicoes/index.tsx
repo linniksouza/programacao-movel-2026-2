@@ -1,9 +1,10 @@
-import { buscarDemandas } from "@/data/api/buscar-demandas";
-import { Demanda } from "@/data/models/demanda.mode";
 import { MaterialDesignIcons } from "@react-native-vector-icons/material-design-icons";
 import { FlatList, StyleSheet, View } from "react-native";
 import { Avatar, Divider, IconButton, Surface, Text } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
+
+import { buscarDemandas } from "@/data/api/buscar-demandas";
+import { Demanda } from "@/data/models/demanda.mode";
 
 const InstituicoesScreen = () => {
     const demandas = buscarDemandas();
@@ -12,12 +13,12 @@ const InstituicoesScreen = () => {
 
         return (
             <>
-                <View style={styles.cardInstituicao}>
+                <View
+                    testID="card-instituicao"
+                    style={styles.cardInstituicao}
+                >
                     <Avatar.Image
                         source={{ uri: item.imagemInstituicao }}
-                        style={{
-
-                        }}
                     />
 
                     <View style={{ width: "60%" }}>
