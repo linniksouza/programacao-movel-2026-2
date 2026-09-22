@@ -1,7 +1,8 @@
-import { StyleSheet, View } from "react-native";
+import { Animated, Pressable, StyleSheet, View } from "react-native";
 import { Card, Text } from "react-native-paper";
 
-import { Demanda } from "@/data/models/demanda.mode";
+import { Demanda } from "@/data/models/demanda.model";
+import { useRef } from "react";
 
 type CardDemandaProps = {
     demanda: Demanda;
@@ -9,36 +10,64 @@ type CardDemandaProps = {
 };
 
 const CardDemanda = ({ demanda, onPress }: CardDemandaProps) => {
+    const escala = useRef(new Animated.Value(1)).current;
+    const estiloAnimacao = {
+        transform: [
+            {
+                scale: escala
+            }
+        ]
+    };
+
+    const pressionar = () => {
+        Animated.spring(escala, {
+            toValue: 0.95,
+            useNativeDriver: true
+        }).start();
+    };
+    const soltar = () => {
+        Animated.spring(escala, {
+            toValue: 1,
+            useNativeDriver: true
+        }).start();
+    };
 
     return (
-        <Card
-            testID="container-card-demanda"
+        <Pressable
             onPress={onPress}
-            style={styles.cardDemandas}
-            mode="outlined"
+            onPressIn={pressionar}
+            onPressOut={soltar}
         >
-            <View style={styles.conteudoCardDemandas}>
-                <Card.Cover
-                    style={styles.imagemInstituicao}
-                    source={{ uri: demanda.imagemInstituicao }}
-                />
+            <Animated.View style={estiloAnimacao}>
+                <Card
+                    testID="container-card-demanda"
+                    style={styles.cardDemandas}
+                    mode="outlined"
+                >
+                    <View style={styles.conteudoCardDemandas}>
+                        <Card.Cover
+                            style={styles.imagemInstituicao}
+                            source={{ uri: demanda.imagemInstituicao }}
+                        />
 
-                <Card.Content style={styles.detalhesCardDemandas}>
-                    <Text variant="titleLarge" style={styles.nomeInstituicao}>
-                        {demanda.nomeInstituicao}
-                    </Text>
-                    <Text variant="bodyMedium" style={styles.objetivoDemanda}>
-                        {demanda.necessidadesInstituicao}
-                    </Text>
-                    <Text variant="bodySmall" style={styles.itensDoacao}>
-                        {demanda.itensDoacao}
-                    </Text>
-                    <Text variant="bodySmall" style={styles.localizacaoInstituicao}>
-                        {demanda.localizacaoInstituicao}
-                    </Text>
-                </Card.Content>
-            </View>
-        </Card>
+                        <Card.Content style={styles.detalhesCardDemandas}>
+                            <Text variant="titleLarge" style={styles.nomeInstituicao}>
+                                {demanda.nomeInstituicao}
+                            </Text>
+                            <Text variant="bodyMedium" style={styles.objetivoDemanda}>
+                                {demanda.necessidadesInstituicao}
+                            </Text>
+                            <Text variant="bodySmall" style={styles.itensDoacao}>
+                                {demanda.itensDoacao}
+                            </Text>
+                            <Text variant="bodySmall" style={styles.localizacaoInstituicao}>
+                                {demanda.localizacaoInstituicao}
+                            </Text>
+                        </Card.Content>
+                    </View>
+                </Card>
+            </Animated.View>
+        </Pressable>
     );
 };
 

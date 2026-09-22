@@ -1,18 +1,47 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { FlatList, StyleSheet, View } from "react-native";
-import { Avatar, Button, Divider, Surface, Text, TextInput } from "react-native-paper";
+import { useState } from "react";
+import { Alert, FlatList, StyleSheet, View } from "react-native";
+import { Avatar, Button, Divider, Snackbar, Surface, Text, TextInput } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-import { buscarDemanda } from "@/data/api/buscar-demandas";
-import { StackParams } from "@/navigation/Stack";
+import { buscarDemanda } from "@/data/api/demandas";
+import { DemandasStackParams } from "@/navigation/Stack";
 import { ItemDoacao } from "@/ui/components/ItemDoacao";
 
-type RegistroDoacaoScreenProps = NativeStackScreenProps<StackParams, "RegistrarDoacao">;
+type RegistroDoacaoScreenProps = NativeStackScreenProps<DemandasStackParams, "RegistrarDoacao">;
 
 const RegistroDoacaoScreen = ({ route }: RegistroDoacaoScreenProps) => {
+    console.log("Iniciando renderizacao...");
+
+    const [salvando, setSalvando] = useState(false);
+    const [exibirSnackbar, setExibirSnackbar] = useState(false);
     const idDemanda = route.params.idDemanda;
     const demanda = buscarDemanda(idDemanda);
     const itensDoacao = demanda?.itensDoacao.split(", ");
+
+    const confirmarDoacao = () => {
+        Alert.alert(
+            "Confirmar Doação",
+            "Deseja confirmar esta doação?",
+            [
+                {
+                    text: "Cancelar",
+                    style: "cancel"
+                },
+                {
+                    text: "Confirmar",
+                    onPress: salvarDoacao
+                },
+            ]
+        );
+    };
+    const salvarDoacao = () => {
+        setSalvando(true);
+        setTimeout(() => {
+            setSalvando(false);
+            setExibirSnackbar(true);
+        }, 3000);
+    };
 
     const renderItemDoacao = ({ item }: { item: string }) => {
         return (
@@ -32,16 +61,15 @@ const RegistroDoacaoScreen = ({ route }: RegistroDoacaoScreenProps) => {
                 </Text>
 
                 <Surface style={styles.infosInstituicao} elevation={2}>
-                    <Avatar.Image
-                        source={{ uri: demanda?.imagemInstituicao }}
-                        style={{
-
-                        }}
-                    />
+                    <Avatar.Image source={{ uri: demanda?.imagemInstituicao }} />
 
                     <View>
-                        <Text variant="bodyLarge" style={{ fontWeight: "bold" }}>{demanda?.nomeInstituicao}</Text>
-                        <Text variant="bodySmall">{demanda?.localizacaoInstituicao}</Text>
+                        <Text variant="bodyLarge" style={{ fontWeight: "bold" }}>
+                            {demanda?.nomeInstituicao}
+                        </Text>
+                        <Text variant="bodySmall">
+                            {demanda?.localizacaoInstituicao}
+                        </Text>
                     </View>
                 </Surface>
             </View>
@@ -72,17 +100,37 @@ const RegistroDoacaoScreen = ({ route }: RegistroDoacaoScreenProps) => {
             </View>
 
             <View style={styles.botoesAcaoDoacao}>
-                <Button mode="contained">Confirmar Doação</Button>
-                <Button mode="text">Cancelar Doação</Button>
+                <Button
+                    mode="contained"
+                    loading={salvando}
+                    disabled={salvando}
+                    onPress={confirmarDoacao}
+                >
+                    Confirmar Doação
+                </Button>
+                <Button
+                    mode="text"
+                    disabled={salvando}
+                >
+                    Cancelar Doação
+                </Button>
             </View>
+
+            <Snackbar
+                style={{ alignSelf: "center" }}
+                visible={exibirSnackbar}
+                onDismiss={() => setExibirSnackbar(false)}
+                duration={3000}
+            >
+                Doação registrada com sucesso!
+            </Snackbar>
         </SafeAreaView>
     );
 };
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        padding: 20
+        paddingHorizontal: 20
     },
     infosInstituicao: {
         marginTop: 10,
@@ -110,4 +158,3 @@ const styles = StyleSheet.create({
 });
 
 export { RegistroDoacaoScreen };
-

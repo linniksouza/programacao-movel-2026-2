@@ -1,45 +1,29 @@
-import { MaterialDesignIcons } from "@react-native-vector-icons/material-design-icons";
-import { FlatList, StyleSheet, View } from "react-native";
-import { Avatar, Divider, IconButton, Surface, Text } from "react-native-paper";
+import { useState } from "react";
+import { StyleSheet, View } from "react-native";
+import { Surface, Text } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-import { buscarDemandas } from "@/data/api/buscar-demandas";
-import { Demanda } from "@/data/models/demanda.mode";
+import { buscarInstituicoes } from "@/data/api/instituicoes";
+import { Instituicao } from "@/data/models/instituicao.model";
+import { FiltroBuscaInstituicao } from "@/ui/components/FiltroBuscaInstituicao";
+import { ListaInstituicoes } from "@/ui/components/ListaInstituicoes";
 
 const InstituicoesScreen = () => {
-    const demandas = buscarDemandas();
+    const instituicoes = buscarInstituicoes();
+    const [sentencaBusca, setSentencaBusca] = useState("");
 
-    const renderInstituicao = ({ item }: { item: Demanda }) => {
+    const filtrarInstituicoes = (instituicao: Instituicao): boolean => {
+        const termo = sentencaBusca.trim().toLowerCase();
+
+        if (!termo)
+            return true;
 
         return (
-            <>
-                <View
-                    testID="card-instituicao"
-                    style={styles.cardInstituicao}
-                >
-                    <Avatar.Image
-                        source={{ uri: item.imagemInstituicao }}
-                    />
-
-                    <View style={{ width: "60%" }}>
-                        <Text variant="bodyLarge" style={{ fontWeight: "bold" }}>
-                            {item.nomeInstituicao}
-                        </Text>
-                        <View style={styles.localizacaoInstituicao}>
-                            <MaterialDesignIcons name="google-maps" size={10} color="#c3c3c3" />
-                            <Text variant="bodySmall">
-                                {item.localizacaoInstituicao}
-                            </Text>
-                        </View>
-                    </View>
-
-                    <IconButton icon="heart" style={{ marginStart: "auto" }} />
-                </View>
-                <Divider />
-            </>
+            instituicao.nome.toLowerCase().includes(termo) ||
+            instituicao.localizacao.toLowerCase().includes(termo)
         );
     };
-    const keyExtractorInstituicao = (item: Demanda) => item.id;
+    const instituicoesFiltradas = instituicoes.filter(filtrarInstituicoes);
 
     return (
         <SafeAreaView style={styles.container}>
@@ -48,14 +32,12 @@ const InstituicoesScreen = () => {
             </View>
 
             <Surface style={styles.instituicoes} elevation={2}>
-                <FlatList
-                    data={demandas}
-                    renderItem={renderInstituicao}
-                    keyExtractor={keyExtractorInstituicao}
-                />
+                <FiltroBuscaInstituicao onFiltrarInstituicoes={setSentencaBusca} />
+
+                <ListaInstituicoes instituicoes={instituicoesFiltradas} />
             </Surface>
         </SafeAreaView>
-    )
+    );
 };
 
 const styles = StyleSheet.create({
@@ -69,20 +51,11 @@ const styles = StyleSheet.create({
         backgroundColor: "#5B2DB8"
     },
     instituicoes: {
-        padding: 20,
-        borderRadius: 30,
+        padding: 10,
+        height: "100%",
+        borderTopLeftRadius: 30,
+        borderTopRightRadius: 30
     },
-    cardInstituicao: {
-        flexDirection: "row",
-        alignItems: "center",
-        gap: 20,
-        marginVertical: 10
-    },
-    localizacaoInstituicao: {
-        flexDirection: "row",
-        alignItems: "center",
-        gap: 5,
-    }
 });
 
 export { InstituicoesScreen };
