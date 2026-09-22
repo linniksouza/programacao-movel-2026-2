@@ -1,7 +1,7 @@
 import { useNavigation } from "@react-navigation/native";
-import { render } from "@testing-library/react-native";
+import { fireEvent, render } from "@testing-library/react-native";
 
-import { InstituicoesScreen } from ".";
+import { ListaInstituicoes } from ".";
 
 const instituicoes = [
     {
@@ -15,28 +15,29 @@ const instituicoes = [
         imagemCapa: "https://www.aldeiasinfantis.org.br/getmedia/f9f970c6-920a-41c7-9fbb-ab49d098c4f4/clickimage_aldeias.png?width=685&height=317"
     }
 ];
-const mockNavigate = jest.fn();
 jest.mock("@react-navigation/native", () => ({
     useNavigation: jest.fn()
 }));
-jest.mock("@/data/api/instituicoes", () => ({
-    buscarInstituicoes: () => [...instituicoes]
-}));
+const mockNavigate = jest.fn();
 
-describe("Suite de testes de unidade para validar a tela 'InstituicoesScreen'", () => {
+describe("Suite de testes de unidade para validar o componente de UI 'ListaInstituicoes'", () => {
     beforeEach(() => {
         jest.clearAllMocks();
         jest.mocked(useNavigation).mockReturnValue({ navigate: mockNavigate });
     });
 
-    it("Deve renderizar os componentes de UI corretamente", async () => {
-        const { getByPlaceholderText, getByText } = await render(<InstituicoesScreen />);
+    it("Deve renderizar corretamente todos os cards de instituicoes quando forem passadas...", async () => {
+        const { getAllByTestId } = await render(<ListaInstituicoes instituicoes={instituicoes} />);
 
-        expect(getByText("Instituições")).toBeTruthy();
-        expect(getByPlaceholderText("Buscar instituições...")).toBeTruthy();
-        instituicoes.forEach((instituicao) => {
-            expect(getByText(instituicao.nome)).toBeTruthy();
-            expect(getByText(instituicao.localizacao)).toBeTruthy();
-        });
+        expect(getAllByTestId("container-card-instituicao")).toHaveLength(instituicoes.length);
+    });
+
+    it("Deve navegar para a tela de detalhes da instituicao ao selecionar uma instituicao", async () => {
+        const instituicao = instituicoes[0];
+
+        const { getByTestId } = await render(<ListaInstituicoes instituicoes={instituicoes} />);
+        fireEvent.press(getByTestId("btn-detalhes-instituicao"));
+
+        expect(mockNavigate).toHaveBeenCalledWith("DetalhesInstituicao", { idInstituicao: instituicao.id });
     });
 });

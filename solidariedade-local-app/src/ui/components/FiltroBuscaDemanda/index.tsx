@@ -6,7 +6,7 @@ type FiltroBuscaProps = {
     onFiltrarDemandas: (sentenca: string) => void;
 };
 
-const FiltroBusca = ({ onFiltrarDemandas }: FiltroBuscaProps) => {
+const FiltroBuscaDemanda = ({ onFiltrarDemandas }: FiltroBuscaProps) => {
     const [busca, setBusca] = useState("");
 
     const onChangeFiltro = (value: string) => {
@@ -62,4 +62,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export { FiltroBusca };
+export { FiltroBuscaDemanda };

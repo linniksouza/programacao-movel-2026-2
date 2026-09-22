@@ -5,15 +5,17 @@ import {
 
 import { DemandasScreen } from "@/screens/Demandas";
 import { RegistroDoacaoScreen } from "@/screens/RegistroDoacao";
+import { InstituicoesScreen } from "@/screens/Instituicoes";
+import { DetalhesInstituicaoScreen } from "@/screens/DetalhesInstituicao";
 
-type StackParams = {
+type DemandasStackParams = {
     Demandas: undefined;
     RegistrarDoacao: {
         idDemanda: string;
     }
 };
 
-const Stack = createNativeStackNavigator<StackParams>({
+const DemandasStack = createNativeStackNavigator<DemandasStackParams>({
     screens: {
         Demandas: createNativeStackScreen({
             screen: DemandasScreen,
@@ -24,13 +26,42 @@ const Stack = createNativeStackNavigator<StackParams>({
         RegistrarDoacao: createNativeStackScreen({
             screen: RegistroDoacaoScreen,
             options: {
-                headerTitle: "Registrar Doação"
+                headerTitle: "Registrar Doação",
+                animation: "default"
             }
         })
     }
 });
 
-// const DemandasStack = createStaticNavigation(Stack);
+type InstituicoesStackParams = {
+    Instituicoes: undefined;
+    DetalhesInstituicao: {
+        idInstituicao: string;
+    };
+};
 
-export { Stack, StackParams };
+const InstituicoesStack = createNativeStackNavigator<InstituicoesStackParams>({
+    screens: {
+        Instituicoes: createNativeStackScreen({
+            screen: InstituicoesScreen,
+            options: {
+                headerShown: false,
+                animation: "default"
+            }
+        }),
+        DetalhesInstituicao: createNativeStackScreen({
+            screen: DetalhesInstituicaoScreen,
+            options: {
+                headerShown: false,
+                animation: "default"
+            }
+        })
+    }
+});
 
+export {
+    DemandasStack,
+    DemandasStackParams,
+    InstituicoesStack,
+    InstituicoesStackParams
+};

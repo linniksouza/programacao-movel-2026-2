@@ -3,10 +3,10 @@ import { StyleSheet } from "react-native";
 import { Surface } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-import { buscarDemandas } from "@/data/api/buscar-demandas";
-import { Demanda } from "@/data/models/demanda.mode";
+import { buscarDemandas } from "@/data/api/demandas";
+import { Demanda } from "@/data/models/demanda.model";
 import { Cabecalho } from "@/ui/components/Cabecalho";
-import { FiltroBusca } from "@/ui/components/FiltroBusca";
+import { FiltroBuscaDemanda } from "@/ui/components/FiltroBuscaDemanda";
 import { ListaDemandas } from "@/ui/components/ListaDemandas";
 
 const DemandasScreen = () => {
@@ -24,7 +24,7 @@ const DemandasScreen = () => {
             demanda.necessidadesInstituicao.toLowerCase().includes(termo) ||
             demanda.itensDoacao.toLowerCase().includes(termo) ||
             demanda.localizacaoInstituicao.toLowerCase().includes(termo)
-        )
+        );
     };
 
     const demandasFiltradas = demandas.filter(filtrarDemandas);
@@ -36,7 +36,7 @@ const DemandasScreen = () => {
                 <Cabecalho />
 
                 {/* Filtros de busca */}
-                <FiltroBusca onFiltrarDemandas={setSentencaBusca} />
+                <FiltroBuscaDemanda onFiltrarDemandas={setSentencaBusca} />
 
                 {/* Lista de demandas */}
                 <ListaDemandas demandas={demandasFiltradas} />

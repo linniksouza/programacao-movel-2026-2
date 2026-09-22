@@ -1,17 +1,17 @@
 import { fireEvent, render } from "@testing-library/react-native";
 
-import { FiltroBusca } from ".";
+import { FiltroBuscaDemanda } from ".";
 
-describe("Suite de testes de unidade para validar o componente de UI 'FiltroBusca'", () => {
+describe("Suite de testes de unidade para validar o componente de UI 'FiltroBuscaDemanda'", () => {
     it("Deve renderizar a barra de busca e o botao de filtros corretamente", async () => {
-        const { getByPlaceholderText, getByText } = await render(<FiltroBusca onFiltrarDemandas={jest.fn()} />);
+        const { getByPlaceholderText, getByText } = await render(<FiltroBuscaDemanda onFiltrarDemandas={jest.fn()} />);
 
         expect(getByPlaceholderText("Buscar demandas...")).toBeTruthy();
         expect(getByText("Filtros")).toBeTruthy();
     });
 
     it("Deve atualizar o valor do campo de texto quando o usuário digitar", async () => {
-        const { getByTestId } = await render(<FiltroBusca onFiltrarDemandas={jest.fn()} />);
+        const { getByTestId } = await render(<FiltroBuscaDemanda onFiltrarDemandas={jest.fn()} />);
 
         const input = getByTestId("input-buscar-demandas");
         await fireEvent.changeText(input, "Alimentos");

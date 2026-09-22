@@ -1,25 +1,30 @@
 import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { FlatList, StyleSheet, View } from "react-native";
 import { Text } from "react-native-paper";
 
-import { Demanda } from "@/data/models/demanda.mode";
+import { Demanda } from "@/data/models/demanda.model";
+import { DemandasStackParams } from "@/navigation/Stack";
 import { CardDemanda } from "@/ui/components/CardDemanda";
 
 type ListaDemandasProps = {
     demandas: Demanda[];
 };
 
-type RenderDemandaParams = {
-    item: Demanda;
-};
-
 const ListaDemandas = ({ demandas }: ListaDemandasProps) => {
-    const navigation = useNavigation();
-    const renderDemanda = ({ item }: RenderDemandaParams) => {
+    const navigation = useNavigation<NativeStackNavigationProp<DemandasStackParams>>();
+    const renderDemanda = ({ item }: { item: Demanda }) => {
         return (
             <CardDemanda
                 demanda={item}
-                onPress={() => navigation.navigate("RegistrarDoacao", { idDemanda: item.id })}
+                onPress={() => {
+                    navigation.navigate(
+                        "RegistrarDoacao",
+                        {
+                            idDemanda: item.id
+                        }
+                    );
+                }}
             />
         );
     };
@@ -45,7 +50,6 @@ const ListaDemandas = ({ demandas }: ListaDemandasProps) => {
 
 const styles = StyleSheet.create({
     listaDemandas: {
-        flex: 1,
         margin: 10
     },
     tituloSecaoListaDemandas: {

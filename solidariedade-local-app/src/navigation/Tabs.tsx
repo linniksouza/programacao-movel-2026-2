@@ -3,7 +3,7 @@ import { createStaticNavigation } from "@react-navigation/native";
 
 import { HistoricoDoacoesScreen } from "@/screens/HistoricoDoacoes";
 import { InstituicoesScreen } from "@/screens/Instituicoes";
-import { Stack } from "./Stack";
+import { DemandasStack, InstituicoesStack } from "./Stack";
 import { PerfilScreen } from "@/screens/Perfil";
 import { MaterialDesignIcons} from "@react-native-vector-icons/material-design-icons";
 
@@ -12,8 +12,8 @@ const Tabs = createBottomTabNavigator({
         headerShown: false
     },
     screens: {
-        Inicio: createBottomTabScreen({
-            screen: Stack,
+        DemandasStack: createBottomTabScreen({
+            screen: DemandasStack,
             options: {
                 tabBarIcon: ({ size, color }) => (
                     <MaterialDesignIcons name="home" size={size} color={color} />
@@ -22,14 +22,19 @@ const Tabs = createBottomTabNavigator({
                 animation: "shift"
             }
         }),
-        Instituicoes: createBottomTabScreen({
-            screen: InstituicoesScreen,
+        InstituicoesStack: createBottomTabScreen({
+            screen: InstituicoesStack,
             options: {
                 tabBarIcon: ({ size, color }) => (
                     <MaterialDesignIcons name="bank" size={size} color={color} />
                 ),
                 tabBarLabel: "Instituições",
-                animation: "shift"
+                animation: "shift",
+                tabBarVisibilityAnimationConfig: {
+                    show: {
+                        animation: "spring"
+                    }
+                }
             }
         }),
         HistoricoDoacoes: createBottomTabScreen({

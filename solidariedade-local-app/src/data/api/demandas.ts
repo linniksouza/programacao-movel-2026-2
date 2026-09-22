@@ -1,4 +1,4 @@
-import { Demanda } from "@/data/models/demanda.mode";
+import { Demanda } from "@/data/models/demanda.model";
 
 const demandas = [
     {
