@@ -6,11 +6,31 @@ import { DemandasScreen } from ".";
 const demandas = [
     {
         id: "1",
-        nomeInstituicao: "Lar Esperança",
         necessidadesInstituicao: "Alimentos não perecíveis",
-        itensDoacao: "Arroz, feijão, óleo e açúcar",
-        localizacaoInstituicao: "Compensa",
-        imagemInstituicao: "https://plus.unsplash.com/premium_vector-1724665300883-3af06a418d3c?fm=jpg&q=60&w=3000&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDE1fHx8ZW58MHx8fHx8"
+        instituicao: {
+            id: "1",
+            nome: "Lar Esperança",
+            localizacao: "Compensa",
+            imagemPrincipal: "https://plus.unsplash.com/premium_vector-1724665300883-3af06a418d3c?fm=jpg&q=60&w=3000&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDE1fHx8ZW58MHx8fHx8"
+        },
+        itensDoacao: [
+            {
+                nome: "Arroz",
+                unidadeMedida: "Kg"
+            },
+            {
+                nome: "Feijão",
+                unidadeMedida: "Kg"
+            },
+            {
+                nome: "Óleo",
+                unidadeMedida: "Garrafa"
+            },
+            {
+                nome: "Açúcar",
+                unidadeMedida: "Kg"
+            }
+        ]
     }
 ];
 const mockNavigate = jest.fn();
@@ -28,7 +48,10 @@ describe("Suite de testes de unidade para validar a tela 'DemandasScreen'", () =
     });
 
     it("Deve renderizar os componentes de UI corretamente", async () => {
-        const { getByPlaceholderText, getByText } = await render(<DemandasScreen />);
+        const {
+            getByPlaceholderText,
+            getByText
+        } = await render(<DemandasScreen />);
 
         expect(getByText("Olá, Linnik!")).toBeTruthy();
         expect(getByText("Veja as necessidades de hoje")).toBeTruthy();
@@ -36,10 +59,14 @@ describe("Suite de testes de unidade para validar a tela 'DemandasScreen'", () =
         expect(getByText("Filtros")).toBeTruthy();
         expect(getByText("Demandas")).toBeTruthy();
         demandas.forEach((demanda) => {
-            expect(getByText(demanda.nomeInstituicao)).toBeTruthy();
+            expect(getByText(demanda.instituicao.nome)).toBeTruthy();
             expect(getByText(demanda.necessidadesInstituicao)).toBeTruthy();
-            expect(getByText(demanda.itensDoacao)).toBeTruthy();
-            expect(getByText(demanda.localizacaoInstituicao)).toBeTruthy();
+            expect(
+                getByText(
+                    demanda.itensDoacao.slice(0, 1).map(i => i.nome).join(", ")
+                )
+            ).toBeTruthy();
+            expect(getByText(demanda.instituicao.localizacao)).toBeTruthy();
         });
     });
 });

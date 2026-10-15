@@ -1,85 +1,161 @@
 import { Demanda } from "@/data/models/demanda.model";
 
-const demandas = [
+const demandas: Demanda[] = [
     {
-        id: "1",
-        nomeInstituicao: "Lar Esperança",
-        necessidadesInstituicao: "Alimentos não perecíveis",
-        itensDoacao: "Arroz, feijão, óleo e açúcar",
-        localizacaoInstituicao: "Compensa",
-        imagemInstituicao: "https://plus.unsplash.com/premium_vector-1724665300883-3af06a418d3c?fm=jpg&q=60&w=3000&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDE1fHx8ZW58MHx8fHx8"
+        id: "d1",
+        necessidadesInstituicao: "Alimentos não perecíveis e fraldas infantis",
+        itensDoacao: [
+            {
+                nome: "Leite em pó integral",
+                unidadeMedida: "Lata",
+            },
+            {
+                nome: "Fralda descartável G",
+                unidadeMedida: "Pacote",
+            },
+            {
+                nome: "Arroz",
+                unidadeMedida: "Kg",
+            }
+        ],
+        instituicao: {
+            id: "1",
+            nome: "Aldeias Infantis S.O.S.",
+            localizacao: "Alvorada",
+            imagemPrincipal: "https://www.aldeiasinfantis.org.br/getmedia/5cda5c60-6f7a-4e10-9ddf-4554ebf2b27e/Logo-Aldeias_branco-c.jpg?width=183&height=69&ext=.jpg"
+        }
     },
     {
-        id: "2",
-        nomeInstituicao: "Abrigo São Vicente",
-        necessidadesInstituicao: "Produtos de higiene pessoal",
-        itensDoacao: "Sabonete, creme dental, shampoo e fraldas geriátricas",
-        localizacaoInstituicao: "Centro",
-        imagemInstituicao: "https://images.unsplash.com/photo-1593113598332-cd288d649433?fm=jpg&q=60&w=3000&auto=format&fit=crop"
+        id: "d2",
+        necessidadesInstituicao: "Roupas infantis e material escolar",
+        itensDoacao: [
+            {
+                nome: "Caderno 10 matérias",
+                unidadeMedida: "Unidade",
+            },
+            {
+                nome: "Roupas (3 a 10 anos)",
+                unidadeMedida: "Peça",
+            },
+            {
+                nome: "Mochila escolar",
+                unidadeMedida: "Unidade",
+            }
+        ],
+        instituicao: {
+            id: "1",
+            nome: "Aldeias Infantis S.O.S.",
+            localizacao: "Alvorada",
+            imagemPrincipal: "https://www.aldeiasinfantis.org.br/getmedia/5cda5c60-6f7a-4e10-9ddf-4554ebf2b27e/Logo-Aldeias_branco-c.jpg?width=183&height=69&ext=.jpg"
+        }
     },
     {
-        id: "3",
-        nomeInstituicao: "Casa da Criança e do Adolescente",
-        necessidadesInstituicao: "Material escolar e pedagógico",
-        itensDoacao: "Cadernos, lápis de cor, mochilas e folhas A4",
-        localizacaoInstituicao: "Cidade Nova",
-        imagemInstituicao: "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?fm=jpg&q=60&w=3000&auto=format&fit=crop"
+        id: "d3",
+        necessidadesInstituicao: "Produtos de limpeza",
+        itensDoacao: [
+            {
+                nome: "Sabão em pó",
+                unidadeMedida: "Pacote",
+            },
+            {
+                nome: "Desinfetante",
+                unidadeMedida: "Frasco",
+            },
+            {
+                nome: "Detergente neutro",
+                unidadeMedida: "Frasco",
+            }
+        ],
+        instituicao: {
+            id: "2",
+            nome: "Nacer",
+            localizacao: "Parque Dez",
+            imagemPrincipal: "https://nacer.org.br/wp-content/uploads/2024/05/cropped-Nova-Marca-01.png"
+        }
     },
     {
-        id: "4",
-        nomeInstituicao: "Instituto Ampara Pet",
-        necessidadesInstituicao: "Insumos para resgate animal",
-        itensDoacao: "Ração para cães e gatos, tapetes higiênicos e medicamentos",
-        localizacaoInstituicao: "Flores",
-        imagemInstituicao: "https://images.unsplash.com/photo-1548767797-d8c844163c4c?fm=jpg&q=60&w=3000&auto=format&fit=crop"
+        id: "d4",
+        necessidadesInstituicao: "Kits de higiene pessoal",
+        itensDoacao: [
+            {
+                nome: "Sabonete",
+                unidadeMedida: "Unidade",
+            },
+            {
+                nome: "Creme dental",
+                unidadeMedida: "Tubo 90g"
+            },
+            {
+                nome: "Absorvente higiênico",
+                unidadeMedida: "Pacote",
+            },
+            {
+                nome: "Escova de dentes",
+                unidadeMedida: "Unidade",
+            }
+        ],
+        instituicao: {
+            id: "2",
+            nome: "Nacer",
+            localizacao: "Parque Dez",
+            imagemPrincipal: "https://nacer.org.br/wp-content/uploads/2024/05/cropped-Nova-Marca-01.png"
+        }
     },
     {
-        id: "5",
-        nomeInstituicao: "Associação Pestalozzi",
-        necessidadesInstituicao: "Materiais de limpeza",
-        itensDoacao: "Desinfetante, sabão em pó, água sanitária e detergente",
-        localizacaoInstituicao: "Parque Dez",
-        imagemInstituicao: "https://plus.unsplash.com/premium_vector-1724665300883-3af06a418d3c?fm=jpg&q=60&w=3000&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDE1fHx8ZW58MHx8fHx8"
+        id: "d5",
+        necessidadesInstituicao: "Kits de higiene pessoal",
+        itensDoacao: [
+            {
+                nome: "Sabonete",
+                unidadeMedida: "Unidade",
+            },
+            {
+                nome: "Creme dental",
+                unidadeMedida: "Tubo 90g"
+            },
+            {
+                nome: "Absorvente higiênico",
+                unidadeMedida: "Pacote",
+            },
+            {
+                nome: "Escova de dentes",
+                unidadeMedida: "Unidade",
+            }
+        ],
+        instituicao: {
+            id: "2",
+            nome: "Nacer",
+            localizacao: "Parque Dez",
+            imagemPrincipal: "https://nacer.org.br/wp-content/uploads/2024/05/cropped-Nova-Marca-01.png"
+        }
     },
     {
-        id: "6",
-        nomeInstituicao: "Rede Feminina de Combate ao Câncer",
-        necessidadesInstituicao: "Suplementos e roupas",
-        itensDoacao: "Leite em pó, suplementos alimentares e agasalhos",
-        localizacaoInstituicao: "Adrianópolis",
-        imagemInstituicao: "https://images.unsplash.com/photo-1532629345422-7515f3d16bb0?fm=jpg&q=60&w=3000&auto=format&fit=crop"
-    },
-    {
-        id: "7",
-        nomeInstituicao: "Projeto Curumim",
-        necessidadesInstituicao: "Brinquedos e jogos educativos",
-        itensDoacao: "Bola de futebol, jogos de tabuleiro, bonecas e carrinhos",
-        localizacaoInstituicao: "Aleixo",
-        imagemInstituicao: "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?fm=jpg&q=60&w=3000&auto=format&fit=crop"
-    },
-    {
-        id: "8",
-        nomeInstituicao: "Albergue Noturno Manaus",
-        necessidadesInstituicao: "Roupas de cama e banho",
-        itensDoacao: "Lençóis, travesseiros, cobertor e toalhas de banho",
-        localizacaoInstituicao: "Praça 14",
-        imagemInstituicao: "https://images.unsplash.com/photo-1593113598332-cd288d649433?fm=jpg&q=60&w=3000&auto=format&fit=crop"
-    },
-    {
-        id: "9",
-        nomeInstituicao: "GACC - Grupo de Apoio à Criança com Câncer",
-        necessidadesInstituicao: "Cesta básica e proteínas",
-        itensDoacao: "Cestas básicas, latas de leite e alimentos perecíveis (carne/frango)",
-        localizacaoInstituicao: "Dom Pedro",
-        imagemInstituicao: "https://images.unsplash.com/photo-1532629345422-7515f3d16bb0?fm=jpg&q=60&w=3000&auto=format&fit=crop"
-    },
-    {
-        id: "10",
-        nomeInstituicao: "Lar dos Idosos São Vicente de Paulo",
-        necessidadesInstituicao: "Cuidados especiais de saúde",
-        itensDoacao: "Luvas descartáveis, gaze, álcool 70% e fraldas geriátricas GG",
-        localizacaoInstituicao: "São Raimundo",
-        imagemInstituicao: "https://plus.unsplash.com/premium_vector-1724665300883-3af06a418d3c?fm=jpg&q=60&w=3000&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDE1fHx8ZW58MHx8fHx8"
+        id: "d6",
+        necessidadesInstituicao: "Kits de higiene pessoal",
+        itensDoacao: [
+            {
+                nome: "Sabonete",
+                unidadeMedida: "Unidade",
+            },
+            {
+                nome: "Creme dental",
+                unidadeMedida: "Tubo 90g"
+            },
+            {
+                nome: "Absorvente higiênico",
+                unidadeMedida: "Pacote",
+            },
+            {
+                nome: "Escova de dentes",
+                unidadeMedida: "Unidade",
+            }
+        ],
+        instituicao: {
+            id: "2",
+            nome: "Nacer",
+            localizacao: "Parque Dez",
+            imagemPrincipal: "https://nacer.org.br/wp-content/uploads/2024/05/cropped-Nova-Marca-01.png"
+        }
     }
 ];
 
@@ -91,118 +167,7 @@ const buscarDemandas = (): Demanda[] => {
     return [...demandas];
 };
 
-const buscarDemandasAgrupadas = (): { title: string, data: Demanda[] }[] => {
-    return [
-        {
-            title: "Alimentação e Nutrição",
-            data: [
-                {
-                    id: "1",
-                    nomeInstituicao: "Lar Esperança",
-                    necessidadesInstituicao: "Alimentos não perecíveis",
-                    itensDoacao: "Arroz, feijão, óleo e açúcar",
-                    localizacaoInstituicao: "Compensa",
-                    imagemInstituicao: "https://plus.unsplash.com/premium_vector-1724665300883-3af06a418d3c?fm=jpg&q=60&w=3000&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDE1fHx8ZW58MHx8fHx8"
-                },
-                {
-                    id: "9",
-                    nomeInstituicao: "GACC - Grupo de Apoio à Criança com Câncer",
-                    necessidadesInstituicao: "Cesta básica e proteínas",
-                    itensDoacao: "Cestas básicas, latas de leite e alimentos perecíveis (carne/frango)",
-                    localizacaoInstituicao: "Dom Pedro",
-                    imagemInstituicao: "https://images.unsplash.com/photo-1532629345422-7515f3d16bb0?fm=jpg&q=60&w=3000&auto=format&fit=crop"
-                }
-            ]
-        },
-        {
-            title: "Saúde, Higiene e Cuidados Especiais",
-            data: [
-                {
-                    id: "2",
-                    nomeInstituicao: "Abrigo São Vicente",
-                    necessidadesInstituicao: "Produtos de higiene pessoal",
-                    itensDoacao: "Sabonete, creme dental, shampoo e fraldas geriátricas",
-                    localizacaoInstituicao: "Centro",
-                    imagemInstituicao: "https://images.unsplash.com/photo-1593113598332-cd288d649433?fm=jpg&q=60&w=3000&auto=format&fit=crop"
-                },
-                {
-                    id: "6",
-                    nomeInstituicao: "Rede Feminina de Combate ao Câncer",
-                    necessidadesInstituicao: "Suplementos e roupas",
-                    itensDoacao: "Leite em pó, suplementos alimentares e agasalhos",
-                    localizacaoInstituicao: "Adrianópolis",
-                    imagemInstituicao: "https://images.unsplash.com/photo-1532629345422-7515f3d16bb0?fm=jpg&q=60&w=3000&auto=format&fit=crop"
-                },
-                {
-                    id: "10",
-                    nomeInstituicao: "Lar dos Idosos São Vicente de Paulo",
-                    necessidadesInstituicao: "Cuidados especiais de saúde",
-                    itensDoacao: "Luvas descartáveis, gaze, álcool 70% e fraldas geriátricas GG",
-                    localizacaoInstituicao: "São Raimundo",
-                    imagemInstituicao: "https://plus.unsplash.com/premium_vector-1724665300883-3af06a418d3c?fm=jpg&q=60&w=3000&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDE1fHx8ZW58MHx8fHx8"
-                }
-            ]
-        },
-        {
-            title: "Educação, Cultura e Lazer",
-            data: [
-                {
-                    id: "3",
-                    nomeInstituicao: "Casa da Criança e do Adolescente",
-                    necessidadesInstituicao: "Material escolar e pedagógico",
-                    itensDoacao: "Cadernos, lápis de cor, mochilas e folhas A4",
-                    localizacaoInstituicao: "Cidade Nova",
-                    imagemInstituicao: "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?fm=jpg&q=60&w=3000&auto=format&fit=crop"
-                },
-                {
-                    id: "7",
-                    nomeInstituicao: "Projeto Curumim",
-                    necessidadesInstituicao: "Brinquedos e jogos educativos",
-                    itensDoacao: "Bola de futebol, jogos de tabuleiro, bonecas e carrinhos",
-                    localizacaoInstituicao: "Aleixo",
-                    imagemInstituicao: "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?fm=jpg&q=60&w=3000&auto=format&fit=crop"
-                }
-            ]
-        },
-        {
-            title: "Causa Animal",
-            data: [
-                {
-                    id: "4",
-                    nomeInstituicao: "Instituto Ampara Pet",
-                    necessidadesInstituicao: "Insumos para resgate animal",
-                    itensDoacao: "Ração para cães e gatos, tapetes higiênicos e medicamentos",
-                    localizacaoInstituicao: "Flores",
-                    imagemInstituicao: "https://images.unsplash.com/photo-1548767797-d8c844163c4c?fm=jpg&q=60&w=3000&auto=format&fit=crop"
-                }
-            ]
-        },
-        {
-            title: "Limpeza e Infraestrutura",
-            data: [
-                {
-                    id: "5",
-                    nomeInstituicao: "Associação Pestalozzi",
-                    necessidadesInstituicao: "Materiais de limpeza",
-                    itensDoacao: "Desinfetante, sabão em pó, água sanitária e detergente",
-                    localizacaoInstituicao: "Parque Dez",
-                    imagemInstituicao: "https://plus.unsplash.com/premium_vector-1724665300883-3af06a418d3c?fm=jpg&q=60&w=3000&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDE1fHx8ZW58MHx8fHx8"
-                },
-                {
-                    id: "8",
-                    nomeInstituicao: "Albergue Noturno Manaus",
-                    necessidadesInstituicao: "Roupas de cama e banho",
-                    itensDoacao: "Lençóis, travesseiros, cobertor e toalhas de banho",
-                    localizacaoInstituicao: "Praça 14",
-                    imagemInstituicao: "https://images.unsplash.com/photo-1593113598332-cd288d649433?fm=jpg&q=60&w=3000&auto=format&fit=crop"
-                }
-            ]
-        }
-    ];
-};
-
 export {
     buscarDemanda,
-    buscarDemandas,
-    buscarDemandasAgrupadas
+    buscarDemandas
 };
