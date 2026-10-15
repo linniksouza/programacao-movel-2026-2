@@ -1,8 +1,8 @@
+import { useRef } from "react";
 import { Animated, Pressable, StyleSheet, View } from "react-native";
 import { Card, Text } from "react-native-paper";
 
 import { Demanda } from "@/data/models/demanda.model";
-import { useRef } from "react";
 
 type CardDemandaProps = {
     demanda: Demanda;
@@ -47,21 +47,21 @@ const CardDemanda = ({ demanda, onPress }: CardDemandaProps) => {
                     <View style={styles.conteudoCardDemandas}>
                         <Card.Cover
                             style={styles.imagemInstituicao}
-                            source={{ uri: demanda.imagemInstituicao }}
+                            source={{ uri: demanda.instituicao.imagemPrincipal }}
                         />
 
                         <Card.Content style={styles.detalhesCardDemandas}>
                             <Text variant="titleLarge" style={styles.nomeInstituicao}>
-                                {demanda.nomeInstituicao}
+                                {demanda.instituicao.nome}
                             </Text>
                             <Text variant="bodyMedium" style={styles.objetivoDemanda}>
                                 {demanda.necessidadesInstituicao}
                             </Text>
                             <Text variant="bodySmall" style={styles.itensDoacao}>
-                                {demanda.itensDoacao}
+                                {demanda.itensDoacao.slice(0, 1).map(i => i.nome).join(", ")}
                             </Text>
                             <Text variant="bodySmall" style={styles.localizacaoInstituicao}>
-                                {demanda.localizacaoInstituicao}
+                                {demanda.instituicao.localizacao}
                             </Text>
                         </Card.Content>
                     </View>

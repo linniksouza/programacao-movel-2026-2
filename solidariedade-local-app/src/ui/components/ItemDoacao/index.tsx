@@ -1,26 +1,57 @@
 import { StyleSheet, View } from "react-native";
 import { IconButton, Text } from "react-native-paper";
 
+import { ItemDoacaoDemanda } from "@/data/models/demanda.model";
+
 type ItemDoacaoProps = {
-    item: string;
+    item: ItemDoacaoDemanda;
+    quantidade: number;
+    setQuantidade: (value: number) => void;
 };
 
-const ItemDoacao = ({ item }: ItemDoacaoProps) => {
+const ItemDoacao = ({
+    item,
+    quantidade,
+    setQuantidade
+}: ItemDoacaoProps) => {
+    const onDiminuir = () => {
+        if(quantidade > 0)
+            setQuantidade(quantidade - 1);
+    };
+    const onAumentar = () => {
+        if(item.qtdMaxima){
+            if(quantidade < item.qtdMaxima)
+                setQuantidade(quantidade + 1);
+        }else{
+            setQuantidade(quantidade + 1);
+        }
+    };
 
     return (
-        <View style={styles.itemDoacao}>
-            <Text>{item}</Text>
+        <View
+            testID="container-item-doacao"
+            style={styles.itemDoacao}
+        >
+            <Text>
+                {item.nome} ({item.unidadeMedida})
+            </Text>
 
             <View style={styles.botoesAcaoItem}>
                 <IconButton
+                    testID="btn-diminuir-qtd"
                     icon="minus"
                     mode="outlined"
-                    disabled
+                    onPress={onDiminuir}
+                    disabled={quantidade === 0}
                 />
-                <Text>0</Text>
+                <Text>
+                    {quantidade}
+                </Text>
                 <IconButton
+                    testID="btn-aumentar-qtd"
                     icon="plus"
                     mode="outlined"
+                    onPress={onAumentar}
                 />
             </View>
         </View>

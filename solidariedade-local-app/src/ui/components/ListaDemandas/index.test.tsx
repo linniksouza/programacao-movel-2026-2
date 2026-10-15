@@ -2,47 +2,144 @@ import { useNavigation } from "@react-navigation/native";
 import { fireEvent, render } from "@testing-library/react-native";
 
 import { ListaDemandas } from ".";
+import { Demanda } from "@/data/models/demanda.model";
 
-const demandas = [
+const demandas: Demanda[] = [
     {
         id: "1",
-        nomeInstituicao: "Lar Esperança",
         necessidadesInstituicao: "Alimentos não perecíveis",
-        itensDoacao: "Arroz, feijão, óleo e açúcar",
-        localizacaoInstituicao: "Compensa",
-        imagemInstituicao: "https://plus.unsplash.com/premium_vector-1724665300883-3af06a418d3c?fm=jpg&q=60&w=3000&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDE1fHx8ZW58MHx8fHx8"
+        instituicao: {
+            id: "1",
+            nome: "Lar Esperança",
+            localizacao: "Compensa",
+            imagemPrincipal: "https://plus.unsplash.com/premium_vector-1724665300883-3af06a418d3c?fm=jpg&q=60&w=3000&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDE1fHx8ZW58MHx8fHx8"
+        },
+        itensDoacao: [
+            {
+                nome: "Arroz",
+                unidadeMedida: "Kg"
+            },
+            {
+                nome: "Feijão",
+                unidadeMedida: "Kg"
+            },
+            {
+                nome: "Óleo",
+                unidadeMedida: "Garrafa"
+            },
+            {
+                nome: "Açúcar",
+                unidadeMedida: "Kg"
+            }
+        ]
     },
     {
         id: "2",
-        nomeInstituicao: "Abrigo São Vicente",
         necessidadesInstituicao: "Produtos de higiene pessoal",
-        itensDoacao: "Sabonete, creme dental, shampoo e fraldas geriátricas",
-        localizacaoInstituicao: "Centro",
-        imagemInstituicao: "https://images.unsplash.com/photo-1593113598332-cd288d649433?fm=jpg&q=60&w=3000&auto=format&fit=crop"
+        instituicao: {
+            id: "1",
+            nome: "Abrigo São Vicente",
+            localizacao: "Centro",
+            imagemPrincipal: "https://images.unsplash.com/photo-1593113598332-cd288d649433?fm=jpg&q=60&w=3000&auto=format&fit=crop"
+        },
+        itensDoacao: [
+            {
+                nome: "Sabonete",
+                unidadeMedida: "Unidade"
+            },
+            {
+                nome: "Creme dental",
+                unidadeMedida: "Unidade"
+            },
+            {
+                nome: "Shampoo",
+                unidadeMedida: "Frasco"
+            },
+            {
+                nome: "Fralda Geriátrica",
+                unidadeMedida: "Pacote"
+            },
+        ]
     },
     {
         id: "3",
-        nomeInstituicao: "Casa da Criança e do Adolescente",
         necessidadesInstituicao: "Material escolar e pedagógico",
-        itensDoacao: "Cadernos, lápis de cor, mochilas e folhas A4",
-        localizacaoInstituicao: "Cidade Nova",
-        imagemInstituicao: "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?fm=jpg&q=60&w=3000&auto=format&fit=crop"
+        instituicao: {
+            id: "3",
+            nome: "Casa da Criança e do Adolescente",
+            localizacao: "Cidade Nova",
+            imagemPrincipal: "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?fm=jpg&q=60&w=3000&auto=format&fit=crop"
+        },
+        itensDoacao: [
+            {
+                nome: "Caderno",
+                unidadeMedida: "Unidade"
+            },
+            {
+                nome: "Lápis de cor",
+                unidadeMedida: "Caixa"
+            },
+            {
+                nome: "Mochila escolar",
+                unidadeMedida: "Unidade"
+            },
+            {
+                nome: "Folhas de papelç A4",
+                unidadeMedida: "Resma"
+            },
+        ]
     },
     {
         id: "4",
-        nomeInstituicao: "Instituto Ampara Pet",
         necessidadesInstituicao: "Insumos para resgate animal",
-        itensDoacao: "Ração para cães e gatos, tapetes higiênicos e medicamentos",
-        localizacaoInstituicao: "Flores",
-        imagemInstituicao: "https://images.unsplash.com/photo-1548767797-d8c844163c4c?fm=jpg&q=60&w=3000&auto=format&fit=crop"
+        instituicao: {
+            id: "4",
+            nome: "Instituto Ampara Pet",
+            localizacao: "Flores",
+            imagemPrincipal: "https://images.unsplash.com/photo-1548767797-d8c844163c4c?fm=jpg&q=60&w=3000&auto=format&fit=crop"
+        },
+        itensDoacao: [
+            {
+                nome: "Ração para cães e gatos",
+                unidadeMedida: "10 Kg"
+            },
+            {
+                nome: "Tapete higiênico",
+                unidadeMedida: "Unidade"
+            },
+            {
+                nome: "Medicamentos",
+                unidadeMedida: "Caixa"
+            },
+        ]
     },
     {
         id: "5",
-        nomeInstituicao: "Associação Pestalozzi",
         necessidadesInstituicao: "Materiais de limpeza",
-        itensDoacao: "Desinfetante, sabão em pó, água sanitária e detergente",
-        localizacaoInstituicao: "Parque Dez",
-        imagemInstituicao: "https://plus.unsplash.com/premium_vector-1724665300883-3af06a418d3c?fm=jpg&q=60&w=3000&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDE1fHx8ZW58MHx8fHx8"
+        instituicao: {
+            id: "5",
+            nome: "Associação Pestalozzi",
+            localizacao: "Parque Dez",
+            imagemPrincipal: "https://plus.unsplash.com/premium_vector-1724665300883-3af06a418d3c?fm=jpg&q=60&w=3000&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDE1fHx8ZW58MHx8fHx8"
+        },
+        itensDoacao: [
+            {
+                nome: "Desinfetante",
+                unidadeMedida: "Frasco"
+            },
+            {
+                nome: "Sabão em pó",
+                unidadeMedida: "Pacote"
+            },
+            {
+                nome: "Água sanitária",
+                unidadeMedida: "L"
+            },
+            {
+                nome: "Detergente",
+                unidadeMedida: "Frasco"
+            },
+        ]
     },
 ];
 jest.mock("@react-navigation/native", () => ({
@@ -72,7 +169,7 @@ describe("Suite de testes de unidade para validar o componente de UI 'ListaDeman
         const demanda = demandas[0];
 
         const { getByText } = await render(<ListaDemandas demandas={demandas} />);
-        fireEvent.press(getByText(demanda.nomeInstituicao));
+        fireEvent.press(getByText(demanda.instituicao.nome));
 
         expect(mockNavigate).toHaveBeenCalledWith("RegistrarDoacao", { idDemanda: demanda.id });
     });

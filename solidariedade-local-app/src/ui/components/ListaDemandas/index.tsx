@@ -28,9 +28,7 @@ const ListaDemandas = ({ demandas }: ListaDemandasProps) => {
             />
         );
     };
-    const keyExtractorDemanda = (item: Demanda) => {
-        return item.id;
-    };
+    const keyExtractorDemanda = (item: Demanda) => item.id;
 
     return (
         <View style={styles.listaDemandas}>
@@ -43,9 +41,10 @@ const ListaDemandas = ({ demandas }: ListaDemandasProps) => {
                 data={demandas}
                 renderItem={renderDemanda}
                 keyExtractor={keyExtractorDemanda}
+                // scrollEnabled
             />
         </View>
-    )
+    );
 };
 
 const styles = StyleSheet.create({

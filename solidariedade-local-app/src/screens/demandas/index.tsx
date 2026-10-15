@@ -1,6 +1,5 @@
 import { useState } from "react";
-import { StyleSheet } from "react-native";
-import { Surface } from "react-native-paper";
+import { StyleSheet, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { buscarDemandas } from "@/data/api/demandas";
@@ -20,10 +19,10 @@ const DemandasScreen = () => {
             return true;
 
         return (
-            demanda.nomeInstituicao.toLowerCase().includes(termo) ||
+            demanda.instituicao.nome.toLowerCase().includes(termo) ||
             demanda.necessidadesInstituicao.toLowerCase().includes(termo) ||
-            demanda.itensDoacao.toLowerCase().includes(termo) ||
-            demanda.localizacaoInstituicao.toLowerCase().includes(termo)
+            demanda.itensDoacao.some(i => i.nome.toLowerCase().includes(termo)) ||
+            demanda.instituicao.localizacao.toLowerCase().includes(termo)
         );
     };
 
@@ -31,7 +30,7 @@ const DemandasScreen = () => {
 
     return (
         <SafeAreaView style={styles.container}>
-            <Surface style={styles.surface} elevation={0}>
+            {/* <View> */}
                 {/* Cabeçalho */}
                 <Cabecalho />
 
@@ -40,7 +39,7 @@ const DemandasScreen = () => {
 
                 {/* Lista de demandas */}
                 <ListaDemandas demandas={demandasFiltradas} />
-            </Surface>
+            {/* </View> */}
         </SafeAreaView>
     );
 };
@@ -55,3 +54,4 @@ const styles = StyleSheet.create({
 });
 
 export { DemandasScreen };
+

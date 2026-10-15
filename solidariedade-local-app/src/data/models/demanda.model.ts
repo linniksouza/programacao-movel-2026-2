@@ -1,10 +1,16 @@
-interface Demanda {
-    id: string;
-    nomeInstituicao: string;
-    necessidadesInstituicao: string;
-    itensDoacao: string;
-    localizacaoInstituicao: string;
-    imagemInstituicao: string;
+import { Instituicao } from "./instituicao.model";
+
+interface ItemDoacaoDemanda {
+    nome: string;
+    unidadeMedida: string;
+    qtdMaxima?: number;
 }
 
-export { Demanda };
+interface Demanda {
+    id: string;
+    necessidadesInstituicao: string;
+    itensDoacao: ItemDoacaoDemanda[];
+    instituicao: Pick<Instituicao, "id" | "nome" | "localizacao" | "imagemPrincipal">;
+}
+
+export { Demanda, ItemDoacaoDemanda };
