@@ -1,12 +1,12 @@
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { render } from "@testing-library/react-native";
 
 import { buscarInstituicao } from "@/data/api/instituicoes";
+import { Instituicao } from "@/data/models/instituicao.model";
 import { InstituicoesStackParams } from "@/navigation/Stack";
+import { render } from "@/utils/test-utils";
 import { DetalhesInstituicaoScreen } from ".";
 
-const idInstituicao = "1";
-const instituicao = {
+const instituicao: Instituicao = {
     id: "1",
     nome: "Aldeias Infantis S.O.S.",
     biografia: "A Aldeias Infantis SOS é a maior organização do mundo dedicada a apoiar crianças e adolescentes sem cuidados parentais ou em risco de perdê-los.",
@@ -20,7 +20,7 @@ const mockRoute = {
     key: "DetalhesInstituicao",
     name: "DetalhesInstituicao" as const,
     params: {
-        idInstituicao
+        idInstituicao: instituicao.id
     }
 };
 const mockNavigation = {} as NativeStackNavigationProp<InstituicoesStackParams>;
@@ -31,11 +31,14 @@ jest.mock("@/data/api/instituicoes", () => ({
 describe("Suite de testes de unidade para validar a tela 'DetalhesInstituicaoScreen'", () => {
     beforeEach(() => {
         jest.clearAllMocks();
+
         jest.mocked(buscarInstituicao).mockReturnValue(instituicao);
     });
 
     it("Deve renderizar os componentes de UI corretamente", async () => {
-        const { getByText } = await render(
+        const {
+            getByText
+        } = await render(
             <DetalhesInstituicaoScreen
                 navigation={mockNavigation}
                 route={mockRoute}
@@ -43,9 +46,9 @@ describe("Suite de testes de unidade para validar a tela 'DetalhesInstituicaoScr
         );
 
         expect(getByText(instituicao.nome)).toBeTruthy();
-        instituicao.areasAtuacao.forEach((area) => {
+        for(const area of instituicao.areasAtuacao){
             expect(getByText(area)).toBeTruthy();
-        });
+        }
         expect(getByText("Sobre")).toBeTruthy();
         expect(getByText(instituicao.biografia)).toBeTruthy();
     });

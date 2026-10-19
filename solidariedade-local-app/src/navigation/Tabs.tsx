@@ -1,60 +1,63 @@
-import { createBottomTabNavigator, createBottomTabScreen } from "@react-navigation/bottom-tabs";
+import {
+    MaterialDesignIcons
+} from "@react-native-vector-icons/material-design-icons";
+import {
+    createBottomTabNavigator,
+    createBottomTabScreen
+} from "@react-navigation/bottom-tabs";
 import { createStaticNavigation } from "@react-navigation/native";
 
 import { HistoricoDoacoesScreen } from "@/screens/HistoricoDoacoes";
-import { InstituicoesScreen } from "@/screens/Instituicoes";
-import { DemandasStack, InstituicoesStack } from "./Stack";
 import { PerfilScreen } from "@/screens/Perfil";
-import { MaterialDesignIcons} from "@react-native-vector-icons/material-design-icons";
+import {
+    DemandasStack,
+    InstituicoesStack
+} from "./Stack";
 
 const Tabs = createBottomTabNavigator({
+    initialRouteName: "DemandasTab",
     screenOptions: {
         headerShown: false
     },
     screens: {
-        DemandasStack: createBottomTabScreen({
+        DemandasTab: createBottomTabScreen({
             screen: DemandasStack,
             options: {
                 tabBarIcon: ({ size, color }) => (
-                    <MaterialDesignIcons name="home" size={size} color={color} />
+                    <MaterialDesignIcons name="home-outline" size={size} color={color} />
                 ),
                 tabBarLabel: "Início",
                 animation: "shift"
             }
         }),
-        InstituicoesStack: createBottomTabScreen({
+        InstituicoesTab: createBottomTabScreen({
             screen: InstituicoesStack,
             options: {
-                tabBarIcon: ({ size, color }) => (
-                    <MaterialDesignIcons name="bank" size={size} color={color} />
-                ),
-                tabBarLabel: "Instituições",
                 animation: "shift",
-                tabBarVisibilityAnimationConfig: {
-                    show: {
-                        animation: "spring"
-                    }
-                }
+                tabBarLabel: "Instituições",
+                tabBarIcon: ({ size, color }) => (
+                    <MaterialDesignIcons name="bank-outline" size={size} color={color} />
+                )
             }
         }),
-        HistoricoDoacoes: createBottomTabScreen({
+        HistoricoDoacoesTab: createBottomTabScreen({
             screen: HistoricoDoacoesScreen,
             options: {
+                animation: "shift",
+                tabBarLabel: "Doações",
                 tabBarIcon: ({ size, color }) => (
                     <MaterialDesignIcons name="mail" size={size} color={color} />
-                ),
-                tabBarLabel: "Doações",
-                animation: "shift"
+                )
             }
         }),
-        Perfil: createBottomTabScreen({
+        PerfilTab: createBottomTabScreen({
             screen: PerfilScreen,
             options: {
-                tabBarIcon: ({ size, color }) => (
-                    <MaterialDesignIcons name="face-man-outline" size={size} color={color} />
-                ),
+                animation: "shift",
                 tabBarLabel: "Perfil",
-                animation: "shift"
+                tabBarIcon: ({ size, color }) => (
+                    <MaterialDesignIcons name="account-outline" size={size} color={color} />
+                )
             }
         })
     }
@@ -62,5 +65,4 @@ const Tabs = createBottomTabNavigator({
 
 const MainTabs = createStaticNavigation(Tabs);
 
-export { MainTabs };
-
+export { MainTabs, Tabs };

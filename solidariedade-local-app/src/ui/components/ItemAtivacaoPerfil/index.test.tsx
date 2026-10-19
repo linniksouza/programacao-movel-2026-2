@@ -1,5 +1,4 @@
-import { fireEvent, render } from "@testing-library/react-native";
-
+import { fireEvent, render } from "@/utils/test-utils";
 import { ItemAtivacaoPerfil } from ".";
 
 const setAtivado = jest.fn();
@@ -22,8 +21,9 @@ describe("Suite de testes de unidade para validar o componente de UI 'ItemAtivac
             />
         );
 
-        fireEvent(
-            getByTestId("switch-ativar-desativar"),
+        const switchAtivarDesativar = getByTestId("switch-ativar-desativar");
+        await fireEvent(
+            switchAtivarDesativar,
             "valueChange",
             false
         );

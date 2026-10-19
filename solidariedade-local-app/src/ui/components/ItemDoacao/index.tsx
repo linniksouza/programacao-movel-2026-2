@@ -1,7 +1,13 @@
-import { StyleSheet, View } from "react-native";
-import { IconButton, Text } from "react-native-paper";
+import { FC } from "react";
+import { IconButton } from "react-native-paper";
 
 import { ItemDoacaoDemanda } from "@/data/models/demanda.model";
+import {
+    ControlesQuantidadeItemDoacao,
+    DadosItemDoacao,
+    ItemDoacao as ItemDoacaoStyled,
+    QuantidadeItemDoacao
+} from "./index.styles";
 
 type ItemDoacaoProps = {
     item: ItemDoacaoDemanda;
@@ -9,11 +15,11 @@ type ItemDoacaoProps = {
     setQuantidade: (value: number) => void;
 };
 
-const ItemDoacao = ({
+const ItemDoacao: FC<ItemDoacaoProps> = ({
     item,
     quantidade,
     setQuantidade
-}: ItemDoacaoProps) => {
+}) => {
     const onDiminuir = () => {
         if(quantidade > 0)
             setQuantidade(quantidade - 1);
@@ -28,15 +34,12 @@ const ItemDoacao = ({
     };
 
     return (
-        <View
-            testID="container-item-doacao"
-            style={styles.itemDoacao}
-        >
-            <Text>
+        <ItemDoacaoStyled testID="container-item-doacao">
+            <DadosItemDoacao variant="bodyMedium">
                 {item.nome} ({item.unidadeMedida})
-            </Text>
+            </DadosItemDoacao>
 
-            <View style={styles.botoesAcaoItem}>
+            <ControlesQuantidadeItemDoacao>
                 <IconButton
                     testID="btn-diminuir-qtd"
                     icon="minus"
@@ -44,33 +47,18 @@ const ItemDoacao = ({
                     onPress={onDiminuir}
                     disabled={quantidade === 0}
                 />
-                <Text>
+                <QuantidadeItemDoacao variant="bodyMedium">
                     {quantidade}
-                </Text>
+                </QuantidadeItemDoacao>
                 <IconButton
                     testID="btn-aumentar-qtd"
                     icon="plus"
                     mode="outlined"
                     onPress={onAumentar}
                 />
-            </View>
-        </View>
+            </ControlesQuantidadeItemDoacao>
+        </ItemDoacaoStyled>
     );
 };
-
-const styles = StyleSheet.create({
-    itemDoacao: {
-        padding: 10,
-        flexDirection: "row",
-        justifyContent: "space-between",
-        alignItems: "center"
-    },
-    botoesAcaoItem: {
-        flexDirection: "row",
-        justifyContent: "center",
-        alignItems: "center",
-        gap: 5
-    }
-});
 
 export { ItemDoacao };

@@ -1,58 +1,46 @@
-import { StyleSheet, View } from "react-native";
-import { Avatar, IconButton, Text } from "react-native-paper";
+import { FC } from "react";
+import { View } from "react-native";
+import { Avatar } from "react-native-paper";
 
 import { Usuario } from "@/data/models/usuario.model";
+import {
+    BotaoEditarDados,
+    CabecalhoPerfil as CabecalhoPerfilStyled,
+    EmailUsuario,
+    NomeUsuario
+} from "./index.styles";
 
 type CabecalhoPerfilProps = {
     usuario: Usuario;
 };
 
-const CabecalhoPerfil = ({
+const CabecalhoPerfil: FC<CabecalhoPerfilProps> = ({
     usuario
-}: CabecalhoPerfilProps) => {
+}) => {
 
     return (
-        <View style={styles.containerCabecalho}>
-            <Avatar.Image size={64} source={{ uri: usuario.urlImagem }} />
+        <CabecalhoPerfilStyled>
+            <Avatar.Image
+                size={64}
+                source={{ uri: usuario.urlImagem }}
+            />
 
             <View>
-                <Text style={styles.nomeUsuario}>
+                <NomeUsuario variant="titleLarge">
                     {usuario.nome}
-                </Text>
-                <Text style={styles.emailUsuario}>
+                </NomeUsuario>
+                <EmailUsuario>
                     {usuario.email}
-                </Text>
+                </EmailUsuario>
             </View>
 
-            <IconButton
-                style={{ marginLeft: "auto" }}
+            <BotaoEditarDados
                 icon="pencil-box-outline"
+                iconColor="#FFFFFF"
                 size={30}
-                iconColor="#ffffff"
             />
-        </View>
+        </CabecalhoPerfilStyled>
     );
 };
-
-const styles = StyleSheet.create({
-    containerCabecalho: {
-        flexDirection: "row",
-        alignItems: "center",
-        gap: 15,
-        paddingTop: 30,
-        paddingBottom: 20,
-        paddingHorizontal: 15,
-        backgroundColor: "#5B2DB8"
-    },
-    nomeUsuario: {
-        fontSize: 18,
-        fontWeight: "bold",
-        color: "#ffffff"
-    },
-    emailUsuario: {
-        fontSize: 15,
-        color: "#ffffff"
-    }
-});
 
 export { CabecalhoPerfil };

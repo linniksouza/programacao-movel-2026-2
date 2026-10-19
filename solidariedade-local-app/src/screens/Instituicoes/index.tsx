@@ -1,14 +1,17 @@
-import { useState } from "react";
-import { StyleSheet, View } from "react-native";
-import { Surface, Text } from "react-native-paper";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { FC, useState } from "react";
 
 import { buscarInstituicoes } from "@/data/api/instituicoes";
 import { Instituicao } from "@/data/models/instituicao.model";
+import { ScreenContainer } from "@/screens/index.styles";
 import { FiltroBuscaInstituicao } from "@/ui/components/FiltroBuscaInstituicao";
 import { ListaInstituicoes } from "@/ui/components/ListaInstituicoes";
+import {
+    CabecalhoInstituicoes,
+    ContainerInstituicoes,
+    TituloCabecalhoInstituicoes
+} from "./index.styles";
 
-const InstituicoesScreen = () => {
+const InstituicoesScreen: FC = () => {
     const instituicoes = buscarInstituicoes();
     const [sentencaBusca, setSentencaBusca] = useState("");
 
@@ -26,36 +29,26 @@ const InstituicoesScreen = () => {
     const instituicoesFiltradas = instituicoes.filter(filtrarInstituicoes);
 
     return (
-        <SafeAreaView style={styles.container}>
-            <View style={styles.cabecalho}>
-                <Text style={{ color: "#ffffff", fontWeight: "bold" }} variant="titleLarge">Instituições</Text>
-            </View>
+        <ScreenContainer>
+            <CabecalhoInstituicoes>
+                <TituloCabecalhoInstituicoes variant="titleLarge">
+                    Instituições
+                </TituloCabecalhoInstituicoes>
+            </CabecalhoInstituicoes>
 
-            <Surface style={styles.instituicoes} elevation={2}>
-                <FiltroBuscaInstituicao onFiltrarInstituicoes={setSentencaBusca} />
+            <ContainerInstituicoes elevation={2}>
+                {/* Filtro de busca */}
+                <FiltroBuscaInstituicao
+                    onFiltrarInstituicoes={setSentencaBusca}
+                />
 
-                <ListaInstituicoes instituicoes={instituicoesFiltradas} />
-            </Surface>
-        </SafeAreaView>
+                {/* Lista de instituicoes */}
+                <ListaInstituicoes
+                    instituicoes={instituicoesFiltradas}
+                />
+            </ContainerInstituicoes>
+        </ScreenContainer>
     );
 };
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        marginBottom: 20,
-        backgroundColor: "#5B2DB8"
-    },
-    cabecalho: {
-        padding: 20,
-        backgroundColor: "#5B2DB8"
-    },
-    instituicoes: {
-        padding: 10,
-        height: "100%",
-        borderTopLeftRadius: 30,
-        borderTopRightRadius: 30
-    },
-});
 
 export { InstituicoesScreen };

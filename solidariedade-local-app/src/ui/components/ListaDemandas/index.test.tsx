@@ -1,8 +1,8 @@
 import { useNavigation } from "@react-navigation/native";
-import { fireEvent, render } from "@testing-library/react-native";
 
-import { ListaDemandas } from ".";
 import { Demanda } from "@/data/models/demanda.model";
+import { fireEvent, render } from "@/utils/test-utils";
+import { ListaDemandas } from ".";
 
 const demandas: Demanda[] = [
     {

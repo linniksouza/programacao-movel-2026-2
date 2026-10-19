@@ -3,8 +3,12 @@ import {
     MaterialDesignIconsIconName
 } from "@react-native-vector-icons/material-design-icons";
 import { FC } from "react";
-import { StyleSheet, View } from "react-native";
-import { Switch, Text } from "react-native-paper";
+
+import {
+    ItemAtivacaoPerfil as ItemAtivacaoPerfilStyled,
+    SwitchItemAtivacaoPerfil,
+    TextoItemAtivacaoPerfil
+} from "./index.styles";
 
 type ItemAtivacaoPerfilProps = {
     icone: MaterialDesignIconsIconName;
@@ -20,32 +24,18 @@ const ItemAtivacaoPerfil: FC<ItemAtivacaoPerfilProps> = ({
     setAtivado
 }) => {
     return (
-        <View style={styles.areaAtivacao}>
+        <ItemAtivacaoPerfilStyled>
             <MaterialDesignIcons name={icone} size={30} />
-            <Text style={styles.tituloAtivacao}>
+            <TextoItemAtivacaoPerfil variant="bodyLarge">
                 {titulo}
-            </Text>
-            <Switch
+            </TextoItemAtivacaoPerfil>
+            <SwitchItemAtivacaoPerfil
                 testID="switch-ativar-desativar"
                 value={ativado}
                 onValueChange={setAtivado}
-                style={{ marginLeft: "auto" }}
             />
-        </View>
+        </ItemAtivacaoPerfilStyled>
     );
 };
-
-const styles = StyleSheet.create({
-    areaAtivacao: {
-        flexDirection: "row",
-        alignItems: "center",
-        gap: 10,
-        marginTop: 20
-    },
-    tituloAtivacao: {
-        fontSize: 15,
-        fontWeight: "bold"
-    }
-});
 
 export { ItemAtivacaoPerfil };

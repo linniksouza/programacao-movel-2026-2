@@ -1,8 +1,9 @@
-import { render } from "@testing-library/react-native";
 import { DateTime } from "luxon";
 
+import { buscarInstituicao } from "@/data/api/instituicoes";
 import { Doacao } from "@/data/models/doacao.model";
 import { Instituicao } from "@/data/models/instituicao.model";
+import { render } from "@/utils/test-utils";
 import { CardDoacaoFeita } from ".";
 
 const instituicao: Instituicao = {
@@ -41,12 +42,14 @@ const doacao: Doacao = {
     ]
 };
 jest.mock("@/data/api/instituicoes", () => ({
-    buscarInstituicao: (_: string) => instituicao
+    buscarInstituicao: jest.fn()
 }));
 
 describe("Suite de testes de unidade para validar o componente de UI 'CardDoacaoFeita'", () => {
     beforeEach(() => {
         jest.clearAllMocks();
+
+        jest.mocked(buscarInstituicao).mockReturnValue(instituicao);
     });
 
     it("Deve renderizar as informacoes sobre a instituicao de destino e dos itens doados", async () => {
@@ -57,7 +60,9 @@ describe("Suite de testes de unidade para validar o componente de UI 'CardDoacao
 
         const {
             getByText
-        } = await render(<CardDoacaoFeita doacao={doacao} />);
+        } = await render(
+            <CardDoacaoFeita doacao={doacao} />
+        );
 
         expect(getByText(instituicao.nome)).toBeTruthy();
         expect(getByText(doacao.tipoDoacao)).toBeTruthy();

@@ -1,12 +1,18 @@
-import { useState } from "react";
-import { StyleSheet, View } from "react-native";
-import { Button, Searchbar } from "react-native-paper";
+import { FC, useState } from "react";
 
-type FiltroBuscaProps = {
+import {
+    BotaoFiltroDemanda,
+    FiltroBuscaDemanda as FiltroBuscaDemandaStyled,
+    InputBuscaDemanda
+} from "./index.styles";
+
+type FiltroBuscaDemandaProps = {
     onFiltrarDemandas: (sentenca: string) => void;
 };
 
-const FiltroBuscaDemanda = ({ onFiltrarDemandas }: FiltroBuscaProps) => {
+const FiltroBuscaDemanda: FC<FiltroBuscaDemandaProps> = ({
+    onFiltrarDemandas
+}) => {
     const [busca, setBusca] = useState("");
 
     const onChangeFiltro = (value: string) => {
@@ -15,51 +21,19 @@ const FiltroBuscaDemanda = ({ onFiltrarDemandas }: FiltroBuscaProps) => {
     };
 
     return (
-        <View style={styles.filtroBuscas}>
-            <Searchbar
+        <FiltroBuscaDemandaStyled>
+            <InputBuscaDemanda
                 testID="input-buscar-demandas"
                 placeholder="Buscar demandas..."
                 value={busca}
                 onChangeText={onChangeFiltro}
                 onClearIconPress={() => onChangeFiltro("")}
-                style={styles.barraBuscarDemandas}
-                inputStyle={styles.inputBuscaDemandas}
             />
-            <Button
-                mode="contained"
-                icon="filter"
-                style={styles.botaoFiltro}
-                contentStyle={styles.contentBotaoFiltro}
-            >
+            <BotaoFiltroDemanda mode="contained" icon="filter">
                 Filtros
-            </Button>
-        </View>
+            </BotaoFiltroDemanda>
+        </FiltroBuscaDemandaStyled>
     );
 };
-
-const styles = StyleSheet.create({
-    filtroBuscas: {
-        flexDirection: "row",
-        justifyContent: "space-between",
-        alignItems: "center",
-        padding: 10,
-        gap: 8
-    },
-    barraBuscarDemandas: {
-        flex: 1,
-        borderRadius: 10,
-        backgroundColor: "#f5f5f5"
-    },
-    inputBuscaDemandas: {
-        minHeight: 0
-    },
-    botaoFiltro: {
-        justifyContent: "center",
-        borderRadius: 10
-    },
-    contentBotaoFiltro: {
-        paddingVertical: 4
-    }
-});
 
 export { FiltroBuscaDemanda };

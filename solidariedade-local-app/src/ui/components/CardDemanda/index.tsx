@@ -1,15 +1,28 @@
-import { useRef } from "react";
-import { Animated, Pressable, StyleSheet, View } from "react-native";
-import { Card, Text } from "react-native-paper";
+import { FC, useRef } from "react";
+import { Animated, Pressable } from "react-native";
 
 import { Demanda } from "@/data/models/demanda.model";
+import {
+    CardDemanda as CardDemandaStyled,
+    ContainerCardDemanda,
+    ConteudoCardDemanda,
+    IconeLocalizacaoInstituicao,
+    ImagemInstituicao,
+    LocalizacaoInstituicao,
+    NecessidadeDoacao,
+    NomeInstituicao,
+    TextoOpaco
+} from "./index.styles";
 
 type CardDemandaProps = {
     demanda: Demanda;
     onPress: () => void;
 };
 
-const CardDemanda = ({ demanda, onPress }: CardDemandaProps) => {
+const CardDemanda: FC<CardDemandaProps> = ({
+    demanda,
+    onPress
+}) => {
     const escala = useRef(new Animated.Value(1)).current;
     const estiloAnimacao = {
         transform: [
@@ -39,72 +52,35 @@ const CardDemanda = ({ demanda, onPress }: CardDemandaProps) => {
             onPressOut={soltar}
         >
             <Animated.View style={estiloAnimacao}>
-                <Card
+                <CardDemandaStyled
                     testID="container-card-demanda"
-                    style={styles.cardDemandas}
                     mode="outlined"
                 >
-                    <View style={styles.conteudoCardDemandas}>
-                        <Card.Cover
-                            style={styles.imagemInstituicao}
-                            source={{ uri: demanda.instituicao.imagemPrincipal }}
-                        />
+                    <ContainerCardDemanda>
+                        <ImagemInstituicao source={{ uri: demanda.instituicao.imagemPrincipal }} />
 
-                        <Card.Content style={styles.detalhesCardDemandas}>
-                            <Text variant="titleLarge" style={styles.nomeInstituicao}>
+                        <ConteudoCardDemanda>
+                            <NomeInstituicao variant="titleLarge">
                                 {demanda.instituicao.nome}
-                            </Text>
-                            <Text variant="bodyMedium" style={styles.objetivoDemanda}>
+                            </NomeInstituicao>
+                            <NecessidadeDoacao variant="bodyMedium">
                                 {demanda.necessidadesInstituicao}
-                            </Text>
-                            <Text variant="bodySmall" style={styles.itensDoacao}>
+                            </NecessidadeDoacao>
+                            <TextoOpaco variant="bodySmall">
                                 {demanda.itensDoacao.slice(0, 1).map(i => i.nome).join(", ")}
-                            </Text>
-                            <Text variant="bodySmall" style={styles.localizacaoInstituicao}>
-                                {demanda.instituicao.localizacao}
-                            </Text>
-                        </Card.Content>
-                    </View>
-                </Card>
+                            </TextoOpaco>
+                            <LocalizacaoInstituicao>
+                                <IconeLocalizacaoInstituicao name="google-maps" size={15} />
+                                <TextoOpaco variant="bodySmall">
+                                    {demanda.instituicao.localizacao}
+                                </TextoOpaco>
+                            </LocalizacaoInstituicao>
+                        </ConteudoCardDemanda>
+                    </ContainerCardDemanda>
+                </CardDemandaStyled>
             </Animated.View>
         </Pressable>
     );
 };
-
-const styles = StyleSheet.create({
-    cardDemandas: {
-        marginVertical: 10,
-        borderRadius: 10,
-        backgroundColor: "#ffffff"
-    },
-    conteudoCardDemandas: {
-        flexDirection: "row",
-        alignItems: "center",
-        padding: 10,
-        gap: 15,
-    },
-    imagemInstituicao: {
-        width: 120,
-        height: 100,
-        borderRadius: 10
-    },
-    detalhesCardDemandas: {
-        flex: 1,
-        padding: 0
-    },
-    nomeInstituicao: {
-        fontWeight: "bold"
-    },
-    objetivoDemanda: {
-        marginVertical: 2
-    },
-    itensDoacao: {
-        opacity: 0.6,
-        marginBottom: 2
-    },
-    localizacaoInstituicao: {
-        opacity: 0.6
-    }
-});
 
 export { CardDemanda };

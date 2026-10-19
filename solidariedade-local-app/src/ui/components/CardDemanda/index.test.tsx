@@ -1,6 +1,5 @@
-import { fireEvent, render } from "@testing-library/react-native";
-
 import { Demanda } from "@/data/models/demanda.model";
+import { fireEvent, render } from "@/utils/test-utils";
 import { CardDemanda } from ".";
 
 const demanda: Demanda = {
@@ -39,7 +38,9 @@ describe("Suite de testes de unidade para validar o componente de UI 'CardDemand
     });
 
     it("Deve renderizar as informacoes textuais da demanda corretamente", async () => {
-        const { getByText } = await render(
+        const {
+            getByText
+        } = await render(
             <CardDemanda demanda={demanda} onPress={onPress} />
         );
 
@@ -50,7 +51,9 @@ describe("Suite de testes de unidade para validar o componente de UI 'CardDemand
     });
 
     it("Deve detectar o evento de area do card pressionado", async () => {
-        const { getByTestId } = await render(
+        const {
+            getByTestId
+        } = await render(
             <CardDemanda demanda={demanda} onPress={onPress} />
         );
 

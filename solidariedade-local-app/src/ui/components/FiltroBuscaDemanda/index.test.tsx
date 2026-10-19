@@ -1,5 +1,4 @@
-import { fireEvent, render } from "@testing-library/react-native";
-
+import { fireEvent, render } from "@/utils/test-utils";
 import { FiltroBuscaDemanda } from ".";
 
 describe("Suite de testes de unidade para validar o componente de UI 'FiltroBuscaDemanda'", () => {
