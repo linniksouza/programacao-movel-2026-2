@@ -1,10 +1,15 @@
 import {
-    MaterialDesignIcons,
     MaterialDesignIconsIconName
 } from "@react-native-vector-icons/material-design-icons";
 import { FC } from "react";
-import { Pressable, StyleSheet } from "react-native";
-import { Text } from "react-native-paper";
+import { Pressable } from "react-native";
+
+import {
+    IconeItemNavegacaoPerfil,
+    IconeNavegacaoPerfil,
+    ItemNavegacaoPerfil as ItemNavegacaoPerfilStyled,
+    NomeItemNavegacaoPerfil
+} from "./index.styles";
 
 type ItemNavegacaoPerfilProps = {
     icone: MaterialDesignIconsIconName;
@@ -17,37 +22,21 @@ const ItemNavegacaoPerfil: FC<ItemNavegacaoPerfilProps> = ({
     titulo,
     onNavigate
 }) => {
+
     return (
         <Pressable
             testID="btn-navegar-item"
-            style={styles.areaToqueItem}
             onPress={onNavigate}
         >
-            <MaterialDesignIcons name={icone} size={30} />
-            <Text style={styles.tituloItem}>
-                {titulo}
-            </Text>
-            <MaterialDesignIcons
-                name="chevron-right"
-                size={30}
-                style={{ marginLeft: "auto" }}
-            />
+            <ItemNavegacaoPerfilStyled>
+                <IconeItemNavegacaoPerfil name={icone} size={30} />
+                <NomeItemNavegacaoPerfil variant="bodyLarge">
+                    {titulo}
+                </NomeItemNavegacaoPerfil>
+                <IconeNavegacaoPerfil name="chevron-right" size={30} />
+            </ItemNavegacaoPerfilStyled>
         </Pressable>
     );
 };
 
-const styles = StyleSheet.create({
-    areaToqueItem: {
-        flexDirection: "row",
-        alignItems: "center",
-        gap: 10
-    },
-    tituloItem: {
-        fontSize: 15,
-        fontWeight: "bold"
-    }
-});
-
-
 export { ItemNavegacaoPerfil };
-

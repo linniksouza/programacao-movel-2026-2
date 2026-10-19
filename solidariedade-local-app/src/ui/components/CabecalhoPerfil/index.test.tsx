@@ -1,6 +1,5 @@
-import { render } from "@testing-library/react-native";
-
 import { Usuario } from "@/data/models/usuario.model";
+import { render } from "@/utils/test-utils";
 import { CabecalhoPerfil } from ".";
 
 const usuario: Usuario = {

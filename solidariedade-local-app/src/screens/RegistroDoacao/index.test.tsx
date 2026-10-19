@@ -1,5 +1,4 @@
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { act, fireEvent, render, waitFor } from "@testing-library/react-native";
 import { Alert } from "react-native";
 
 import { buscarDemanda } from "@/data/api/demandas";
@@ -9,6 +8,7 @@ import { Demanda } from "@/data/models/demanda.model";
 import { Usuario } from "@/data/models/usuario.model";
 import { DoacoesRepository } from "@/data/repositories/doacoes";
 import { DemandasStackParams } from "@/navigation/Stack";
+import { act, fireEvent, render, waitFor } from "@/utils/test-utils";
 import { RegistroDoacaoScreen } from ".";
 
 const usuario: Usuario = {

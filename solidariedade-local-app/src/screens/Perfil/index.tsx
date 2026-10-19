@@ -1,16 +1,19 @@
-import { useEffect, useState } from "react";
-import { StyleSheet } from "react-native";
-import { Divider, Surface, Text } from "react-native-paper";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { FC, useEffect, useState } from "react";
+import { Divider } from "react-native-paper";
 
 import { buscarUsuario } from "@/data/api/usuarios";
 import { perfilRepositoryFactory } from "@/data/asyncstorage";
+import { ScreenContainer } from "@/screens/index.styles";
 import { CabecalhoPerfil } from "@/ui/components/CabecalhoPerfil";
 import { ItemAtivacaoPerfil } from "@/ui/components/ItemAtivacaoPerfil";
 import { ItemNavegacaoPerfil } from "@/ui/components/ItemNavegacaoPerfil";
 import { Logout } from "@/ui/components/Logout";
+import {
+    ContainerItensPerfil,
+    SecaoPreferencias
+} from "./index.styles";
 
-const PerfilScreen = () => {
+const PerfilScreen: FC = () => {
     const perfilRepository = perfilRepositoryFactory();
     const usuario = buscarUsuario();
 
@@ -41,26 +44,20 @@ const PerfilScreen = () => {
     }, []);
 
     return (
-        <SafeAreaView style={styles.container}>
+        <ScreenContainer>
             <CabecalhoPerfil usuario={usuario} />
 
-            <Surface
-                elevation={2}
-                style={styles.surface}
-            >
+            <ContainerItensPerfil elevation={2}>
                 <ItemNavegacaoPerfil
                     icone="account-outline"
                     titulo="Dados Pessoais"
                 />
-            </Surface>
+            </ContainerItensPerfil>
 
-            <Surface
-                elevation={2}
-                style={styles.surface}
-            >
-                <Text style={styles.tituloPreferencias}>
+            <ContainerItensPerfil elevation={2}>
+                <SecaoPreferencias variant="bodyLarge">
                     Preferências
-                </Text>
+                </SecaoPreferencias>
 
                 <ItemAtivacaoPerfil
                     icone="theme-light-dark"
@@ -68,73 +65,34 @@ const PerfilScreen = () => {
                     ativado={modoEscuroAtivado}
                     setAtivado={onAtivarModoEscuro}
                 />
-                <Divider />
+                <Divider bold />
                 <ItemAtivacaoPerfil
                     icone="bell-outline"
                     titulo="Notificações"
                     ativado={notificacoesAtivadas}
                     setAtivado={onAtivarNotificacoes}
                 />
-            </Surface>
+            </ContainerItensPerfil>
 
-            <Surface
-                elevation={2}
-                style={styles.surface}
-            >
+            <ContainerItensPerfil elevation={2}>
                 <ItemNavegacaoPerfil
                     icone="lock-outline"
                     titulo="Segurança"
                 />
-            </Surface>
+            </ContainerItensPerfil>
 
-            <Surface
-                elevation={2}
-                style={styles.surface}
-            >
+            <ContainerItensPerfil elevation={2}>
                 <ItemNavegacaoPerfil
                     icone="information-outline"
                     titulo="Sobre o aplicativo"
                 />
-            </Surface>
+            </ContainerItensPerfil>
 
-            <Surface
-                elevation={2}
-                style={styles.surface}
-            >
+            <ContainerItensPerfil elevation={2}>
                 <Logout />
-            </Surface>
-        </SafeAreaView>
+            </ContainerItensPerfil>
+        </ScreenContainer>
     )
 };
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-    },
-    surface: {
-        margin: 10,
-        padding: 20,
-        borderRadius: 10,
-    },
-    tituloPreferencias: {
-        fontSize: 15,
-        fontWeight: "bold"
-    },
-    dadosPessoais: {
-        flexDirection: "row",
-        alignItems: "center",
-        gap: 10,
-        padding: 20
-    },
-    preferencias: {
-        padding: 20
-    },
-    modoEscuro: {
-        flexDirection: "row",
-        alignItems: "center",
-        gap: 10,
-        padding: 20
-    },
-});
 
 export { PerfilScreen };

@@ -1,8 +1,8 @@
-import { fireEvent, render } from "@testing-library/react-native";
-
+import { buscarUsuario } from "@/data/api/usuarios";
 import { perfilRepositoryFactory } from "@/data/asyncstorage";
 import { Usuario } from "@/data/models/usuario.model";
 import { PerfilRepository } from "@/data/repositories/perfil";
+import { fireEvent, render } from "@/utils/test-utils";
 import { PerfilScreen } from ".";
 
 const usuario: Usuario = {
@@ -12,7 +12,7 @@ const usuario: Usuario = {
     urlImagem: "https://avatars.githubusercontent.com/u/263082479"
 };
 jest.mock("@/data/api/usuarios", () => ({
-    buscarUsuario: () => usuario
+    buscarUsuario: jest.fn()
 }));
 jest.mock("@/data/asyncstorage", () => ({
     perfilRepositoryFactory: jest.fn()
@@ -30,6 +30,7 @@ describe("Suite de testes de unidade para validar a tela 'PerfilScreen'", () => 
         };
 
         jest.mocked(perfilRepositoryFactory).mockReturnValue(perfilRepositoryMock);
+        jest.mocked(buscarUsuario).mockReturnValue(usuario);
     });
 
     it("Deve mudar o estado de modo escuro para ativado quando tocar no item de modo escuro desativado", async () => {
@@ -41,9 +42,9 @@ describe("Suite de testes de unidade para validar a tela 'PerfilScreen'", () => 
         const {
             getAllByTestId
         } = await render(<PerfilScreen />);
+
         const itensAtivacao = getAllByTestId("switch-ativar-desativar");
         const switchModoEscuro = itensAtivacao[0];
-
         await fireEvent(
             switchModoEscuro,
             "valueChange",
@@ -66,9 +67,9 @@ describe("Suite de testes de unidade para validar a tela 'PerfilScreen'", () => 
         const {
             getAllByTestId
         } = await render(<PerfilScreen />);
+
         const itensAtivacao = getAllByTestId("switch-ativar-desativar");
         const switchNotificacoes = itensAtivacao[1];
-
         await fireEvent(
             switchNotificacoes,
             "valueChange",

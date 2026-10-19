@@ -1,14 +1,13 @@
-import { useState } from "react";
-import { StyleSheet, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { FC, useState } from "react";
 
 import { buscarDemandas } from "@/data/api/demandas";
 import { Demanda } from "@/data/models/demanda.model";
-import { Cabecalho } from "@/ui/components/Cabecalho";
+import { ScreenContainer } from "@/screens/index.styles";
+import { CabecalhoDemandas } from "@/ui/components/CabecalhoDemandas";
 import { FiltroBuscaDemanda } from "@/ui/components/FiltroBuscaDemanda";
 import { ListaDemandas } from "@/ui/components/ListaDemandas";
 
-const DemandasScreen = () => {
+const DemandasScreen: FC = () => {
     const demandas = buscarDemandas();
     const [sentencaBusca, setSentencaBusca] = useState("");
 
@@ -29,29 +28,17 @@ const DemandasScreen = () => {
     const demandasFiltradas = demandas.filter(filtrarDemandas);
 
     return (
-        <SafeAreaView style={styles.container}>
-            {/* <View> */}
-                {/* Cabeçalho */}
-                <Cabecalho />
+        <ScreenContainer>
+            {/* Cabeçalho */}
+            <CabecalhoDemandas />
 
-                {/* Filtros de busca */}
-                <FiltroBuscaDemanda onFiltrarDemandas={setSentencaBusca} />
+            {/* Filtros de busca */}
+            <FiltroBuscaDemanda onFiltrarDemandas={setSentencaBusca} />
 
-                {/* Lista de demandas */}
-                <ListaDemandas demandas={demandasFiltradas} />
-            {/* </View> */}
-        </SafeAreaView>
+            {/* Lista de demandas */}
+            <ListaDemandas demandas={demandasFiltradas} />
+        </ScreenContainer>
     );
 };
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1
-    },
-    surface: {
-        flex: 1
-    }
-});
-
 export { DemandasScreen };
-

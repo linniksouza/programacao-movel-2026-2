@@ -1,5 +1,4 @@
-import { fireEvent, render } from "@testing-library/react-native";
-
+import { fireEvent, render } from "@/utils/test-utils";
 import { ItemNavegacaoPerfil } from ".";
 
 const onNavigate = jest.fn();
@@ -34,8 +33,8 @@ describe("Suite de testes de unidade para validar o componente de UI 'ItemNavega
                 onNavigate={onNavigate}
             />
         );
-        const btnNavegarItem = getByTestId("btn-navegar-item");
 
+        const btnNavegarItem = getByTestId("btn-navegar-item");
         await fireEvent.press(btnNavegarItem);
 
         expect(getByText("Dados do Perfil")).toBeTruthy();

@@ -1,12 +1,17 @@
-import { useState } from "react";
-import { StyleSheet, View } from "react-native";
-import { Searchbar } from "react-native-paper";
+import { FC, useState } from "react";
+
+import {
+    FiltroBuscaInstituicao as FiltroBuscaInstituicaoStyled,
+    InputBuscaInstituicao
+} from "./index.styles";
 
 type FiltroBuscaInstituicaoProps = {
     onFiltrarInstituicoes: (sentenca: string) => void;
 };
 
-const FiltroBuscaInstituicao = ({ onFiltrarInstituicoes }: FiltroBuscaInstituicaoProps) => {
+const FiltroBuscaInstituicao: FC<FiltroBuscaInstituicaoProps> = ({
+    onFiltrarInstituicoes
+}) => {
     const [busca, setBusca] = useState("");
 
     const onChangeFiltro = (value: string) => {
@@ -15,39 +20,16 @@ const FiltroBuscaInstituicao = ({ onFiltrarInstituicoes }: FiltroBuscaInstituica
     };
 
     return (
-        <View style={styles.filtroBuscas}>
-            <Searchbar
+        <FiltroBuscaInstituicaoStyled>
+            <InputBuscaInstituicao
                 testID="input-buscar-instituicoes"
                 placeholder="Buscar instituições..."
                 value={busca}
                 onChangeText={onChangeFiltro}
                 onClearIconPress={() => onChangeFiltro("")}
-                style={styles.barraBuscar}
-                inputStyle={styles.inputBuscar}
             />
-        </View>
+        </FiltroBuscaInstituicaoStyled>
     );
 };
 
-const styles = StyleSheet.create({
-    filtroBuscas: {
-        flexDirection: "row",
-        justifyContent: "space-between",
-        alignItems: "center",
-        padding: 10,
-        gap: 8
-    },
-    barraBuscar: {
-        flex: 1,
-        borderRadius: 10,
-        backgroundColor: "#f5f5f5",
-        borderWidth: 1,
-        borderColor: "#c2c2c2"
-    },
-    inputBuscar: {
-        minHeight: 0
-    }
-});
-
 export { FiltroBuscaInstituicao };
-

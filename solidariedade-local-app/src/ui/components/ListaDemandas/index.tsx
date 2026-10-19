@@ -1,60 +1,52 @@
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { FlatList, StyleSheet, View } from "react-native";
-import { Text } from "react-native-paper";
+import { FC } from "react";
+import { FlatList } from "react-native";
 
 import { Demanda } from "@/data/models/demanda.model";
 import { DemandasStackParams } from "@/navigation/Stack";
 import { CardDemanda } from "@/ui/components/CardDemanda";
+import {
+    ListaDemandas as ListaDemandasStyled,
+    SecaoListaDemandas
+} from "./index.styles";
 
 type ListaDemandasProps = {
     demandas: Demanda[];
 };
 
-const ListaDemandas = ({ demandas }: ListaDemandasProps) => {
+const ListaDemandas: FC<ListaDemandasProps> = ({
+    demandas
+}) => {
     const navigation = useNavigation<NativeStackNavigationProp<DemandasStackParams>>();
+
     const renderDemanda = ({ item }: { item: Demanda }) => {
-        return (
-            <CardDemanda
-                demanda={item}
-                onPress={() => {
-                    navigation.navigate(
-                        "RegistrarDoacao",
-                        {
-                            idDemanda: item.id
-                        }
-                    );
-                }}
-            />
-        );
+        const onPress = () => {
+            navigation.navigate(
+                "RegistrarDoacao",
+                { idDemanda: item.id }
+            );
+        };
+
+        return <CardDemanda demanda={item} onPress={onPress} />;
     };
     const keyExtractorDemanda = (item: Demanda) => item.id;
 
     return (
-        <View style={styles.listaDemandas}>
-            <Text variant="titleLarge" style={styles.tituloSecaoListaDemandas}>
+        <ListaDemandasStyled>
+            <SecaoListaDemandas variant="titleLarge">
                 Demandas
-            </Text>
+            </SecaoListaDemandas>
 
             <FlatList
-                testID="list-demandas"
+                testID="lista-demandas"
                 data={demandas}
                 renderItem={renderDemanda}
                 keyExtractor={keyExtractorDemanda}
-                // scrollEnabled
+                scrollEnabled
             />
-        </View>
+        </ListaDemandasStyled>
     );
 };
-
-const styles = StyleSheet.create({
-    listaDemandas: {
-        margin: 10
-    },
-    tituloSecaoListaDemandas: {
-        fontSize: 20,
-        fontWeight: "bold"
-    }
-});
 
 export { ListaDemandas };

@@ -1,9 +1,10 @@
 import { useNavigation } from "@react-navigation/native";
-import { fireEvent, render } from "@testing-library/react-native";
 
+import { Instituicao } from "@/data/models/instituicao.model";
+import { fireEvent, render } from "@/utils/test-utils";
 import { ListaInstituicoes } from ".";
 
-const instituicoes = [
+const instituicoes: Instituicao[] = [
     {
         id: "1",
         nome: "Aldeias Infantis S.O.S.",
@@ -23,11 +24,16 @@ const mockNavigate = jest.fn();
 describe("Suite de testes de unidade para validar o componente de UI 'ListaInstituicoes'", () => {
     beforeEach(() => {
         jest.clearAllMocks();
+
         jest.mocked(useNavigation).mockReturnValue({ navigate: mockNavigate });
     });
 
     it("Deve renderizar corretamente todos os cards de instituicoes quando forem passadas...", async () => {
-        const { getAllByTestId } = await render(<ListaInstituicoes instituicoes={instituicoes} />);
+        const {
+            getAllByTestId
+        } = await render(
+            <ListaInstituicoes instituicoes={instituicoes} />
+        );
 
         expect(getAllByTestId("container-card-instituicao")).toHaveLength(instituicoes.length);
     });
@@ -35,8 +41,14 @@ describe("Suite de testes de unidade para validar o componente de UI 'ListaInsti
     it("Deve navegar para a tela de detalhes da instituicao ao selecionar uma instituicao", async () => {
         const instituicao = instituicoes[0];
 
-        const { getByTestId } = await render(<ListaInstituicoes instituicoes={instituicoes} />);
-        fireEvent.press(getByTestId("btn-detalhes-instituicao"));
+        const {
+            getByTestId
+        } = await render(
+            <ListaInstituicoes instituicoes={instituicoes} />
+        );
+
+        const btnDetalhesInstituicao = getByTestId("btn-detalhes-instituicao");
+        await fireEvent.press(btnDetalhesInstituicao);
 
         expect(mockNavigate).toHaveBeenCalledWith("DetalhesInstituicao", { idInstituicao: instituicao.id });
     });

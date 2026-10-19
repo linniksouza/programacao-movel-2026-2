@@ -1,8 +1,12 @@
-import { fireEvent, render } from "@testing-library/react-native";
-
 import { ItemDoacaoDemanda } from "@/data/models/demanda.model";
+import { fireEvent, render } from "@/utils/test-utils";
 import { ItemDoacao } from ".";
 
+const item: ItemDoacaoDemanda = {
+    nome: "Arroz",
+    unidadeMedida: "Kg",
+};
+const itemUnidade = `${item.nome} (${item.unidadeMedida})`;
 const setQuantidade = jest.fn();
 
 describe("Suite de testes de unidade para validar o componente de UI 'ItemDoacao'", () => {
@@ -11,11 +15,9 @@ describe("Suite de testes de unidade para validar o componente de UI 'ItemDoacao
     });
 
     it("Deve adicionar 2 unidades ao tocar no botao de adicionar duas vezes com uma quantidade inicial zerada", async () => {
-        const item: ItemDoacaoDemanda = {
-            nome: "Arroz",
-            unidadeMedida: "Kg",
+        const itemDoacao: ItemDoacaoDemanda = {
+            ...item
         };
-        const itemUnidade = `${item.nome} (${item.unidadeMedida})`;
 
         const {
             getByTestId,
@@ -23,7 +25,7 @@ describe("Suite de testes de unidade para validar o componente de UI 'ItemDoacao
             rerender
         } = await render(
             <ItemDoacao
-                item={item}
+                item={itemDoacao}
                 quantidade={0}
                 setQuantidade={setQuantidade}
             />
@@ -35,7 +37,7 @@ describe("Suite de testes de unidade para validar o componente de UI 'ItemDoacao
 
         await rerender(
             <ItemDoacao
-                item={item}
+                item={itemDoacao}
                 quantidade={1}
                 setQuantidade={setQuantidade}
             />
@@ -49,11 +51,9 @@ describe("Suite de testes de unidade para validar o componente de UI 'ItemDoacao
     });
 
     it("Deve adicionar duas unidades ao tocar no botao de adicionar duas vezes e remover uma unidade ao tocar no botao de diminuir uma vez com uma quantidade zerada", async () => {
-        const item: ItemDoacaoDemanda = {
-            nome: "Arroz",
-            unidadeMedida: "Kg",
+        const itemDoacao: ItemDoacaoDemanda = {
+            ...item
         };
-        const itemUnidade = `${item.nome} (${item.unidadeMedida})`;
 
         const {
             getByTestId,
@@ -61,7 +61,7 @@ describe("Suite de testes de unidade para validar o componente de UI 'ItemDoacao
             rerender
         } = await render(
             <ItemDoacao
-                item={item}
+                item={itemDoacao}
                 quantidade={0}
                 setQuantidade={setQuantidade}
             />
@@ -74,7 +74,7 @@ describe("Suite de testes de unidade para validar o componente de UI 'ItemDoacao
 
         await rerender(
             <ItemDoacao
-                item={item}
+                item={itemDoacao}
                 quantidade={1}
                 setQuantidade={setQuantidade}
             />
@@ -85,7 +85,7 @@ describe("Suite de testes de unidade para validar o componente de UI 'ItemDoacao
 
         await rerender(
             <ItemDoacao
-                item={item}
+                item={itemDoacao}
                 quantidade={2}
                 setQuantidade={setQuantidade}
             />
@@ -99,11 +99,9 @@ describe("Suite de testes de unidade para validar o componente de UI 'ItemDoacao
     });
 
     it("Deve diminuir ate o piso zerado ao tocar no botao de diminuir tres vezes com uma quantidade igual a dois", async () => {
-        const item: ItemDoacaoDemanda = {
-            nome: "Arroz",
-            unidadeMedida: "Kg",
+        const itemDoacao: ItemDoacaoDemanda = {
+            ...item
         };
-        const itemUnidade = `${item.nome} (${item.unidadeMedida})`;
 
         const {
             getByTestId,
@@ -111,7 +109,7 @@ describe("Suite de testes de unidade para validar o componente de UI 'ItemDoacao
             rerender
         } = await render(
             <ItemDoacao
-                item={item}
+                item={itemDoacao}
                 quantidade={2}
                 setQuantidade={setQuantidade}
             />
@@ -123,7 +121,7 @@ describe("Suite de testes de unidade para validar o componente de UI 'ItemDoacao
 
         await rerender(
             <ItemDoacao
-                item={item}
+                item={itemDoacao}
                 quantidade={1}
                 setQuantidade={setQuantidade}
             />
@@ -134,7 +132,7 @@ describe("Suite de testes de unidade para validar o componente de UI 'ItemDoacao
 
         await rerender(
             <ItemDoacao
-                item={item}
+                item={itemDoacao}
                 quantidade={0}
                 setQuantidade={setQuantidade}
             />
@@ -147,12 +145,10 @@ describe("Suite de testes de unidade para validar o componente de UI 'ItemDoacao
     });
 
     it("Deve aumentar ate o teto maximo de itens ao tocar no botao de aumentar tres vezes com uma quantidade igual a duas unidades menor que a quantidade maxima de itens", async () => {
-        const item: ItemDoacaoDemanda = {
-            nome: "Arroz",
-            unidadeMedida: "Kg",
+        const itemDoacao: ItemDoacaoDemanda = {
+            ...item,
             qtdMaxima: 5
         };
-        const itemUnidade = `${item.nome} (${item.unidadeMedida})`;
 
         const {
             getByTestId,
@@ -160,7 +156,7 @@ describe("Suite de testes de unidade para validar o componente de UI 'ItemDoacao
             rerender
         } = await render(
             <ItemDoacao
-                item={item}
+                item={itemDoacao}
                 quantidade={3}
                 setQuantidade={setQuantidade}
             />
@@ -172,7 +168,7 @@ describe("Suite de testes de unidade para validar o componente de UI 'ItemDoacao
 
         await rerender(
             <ItemDoacao
-                item={item}
+                item={itemDoacao}
                 quantidade={4}
                 setQuantidade={setQuantidade}
             />
@@ -183,7 +179,7 @@ describe("Suite de testes de unidade para validar o componente de UI 'ItemDoacao
 
         await rerender(
             <ItemDoacao
-                item={item}
+                item={itemDoacao}
                 quantidade={5}
                 setQuantidade={setQuantidade}
             />

@@ -1,6 +1,5 @@
-import { fireEvent, render, within } from "@testing-library/react-native";
-
 import { ItemDoacaoDemanda } from "@/data/models/demanda.model";
+import { fireEvent, render, within } from "@/utils/test-utils";
 import { ListaItensDoacao } from ".";
 
 const itensDoacao: ItemDoacaoDemanda[] = [
@@ -47,9 +46,9 @@ describe("Suite de testes de unidade para validar o componente de UI 'ListaItens
                 onChangeQuantidade={onChangeQuantidade}
             />
         );
+        
         const containersItensDoacao = getAllByTestId("container-item-doacao");
         const btnAumentar = within(containersItensDoacao[0]).getByTestId("btn-aumentar-qtd");
-
         await fireEvent.press(btnAumentar);
 
         expect(containersItensDoacao).toHaveLength(itensDoacao.length);

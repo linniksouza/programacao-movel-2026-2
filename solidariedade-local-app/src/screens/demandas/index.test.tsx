@@ -1,9 +1,11 @@
 import { useNavigation } from "@react-navigation/native";
-import { render } from "@testing-library/react-native";
 
+import { buscarDemandas } from "@/data/api/demandas";
+import { Demanda } from "@/data/models/demanda.model";
+import { render } from "@/utils/test-utils";
 import { DemandasScreen } from ".";
 
-const demandas = [
+const demandas: Demanda[] = [
     {
         id: "1",
         necessidadesInstituicao: "Alimentos não perecíveis",
@@ -38,13 +40,15 @@ jest.mock("@react-navigation/native", () => ({
     useNavigation: jest.fn()
 }));
 jest.mock("@/data/api/demandas", () => ({
-    buscarDemandas: () => [...demandas]
+    buscarDemandas: jest.fn()
 }));
 
 describe("Suite de testes de unidade para validar a tela 'DemandasScreen'", () => {
     beforeEach(() => {
         jest.clearAllMocks();
+
         jest.mocked(useNavigation).mockReturnValue({ navigate: mockNavigate });
+        jest.mocked(buscarDemandas).mockReturnValue(demandas);
     });
 
     it("Deve renderizar os componentes de UI corretamente", async () => {
@@ -58,7 +62,7 @@ describe("Suite de testes de unidade para validar a tela 'DemandasScreen'", () =
         expect(getByPlaceholderText("Buscar demandas...")).toBeTruthy();
         expect(getByText("Filtros")).toBeTruthy();
         expect(getByText("Demandas")).toBeTruthy();
-        demandas.forEach((demanda) => {
+        for(const demanda of demandas){
             expect(getByText(demanda.instituicao.nome)).toBeTruthy();
             expect(getByText(demanda.necessidadesInstituicao)).toBeTruthy();
             expect(
@@ -67,6 +71,6 @@ describe("Suite de testes de unidade para validar a tela 'DemandasScreen'", () =
                 )
             ).toBeTruthy();
             expect(getByText(demanda.instituicao.localizacao)).toBeTruthy();
-        });
+        }
     });
 });

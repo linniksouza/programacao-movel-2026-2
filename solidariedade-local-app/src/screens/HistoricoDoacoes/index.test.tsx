@@ -1,4 +1,3 @@
-import { act, fireEvent, render, waitFor } from "@testing-library/react-native";
 import { DateTime } from "luxon";
 
 import { doacoesRepositoryFactory } from "@/data/drizzle";
@@ -6,6 +5,7 @@ import { Doacao } from "@/data/models/doacao.model";
 import { Instituicao } from "@/data/models/instituicao.model";
 import { Usuario } from "@/data/models/usuario.model";
 import { DoacoesRepository } from "@/data/repositories/doacoes";
+import { act, fireEvent, render, waitFor } from "@/utils/test-utils";
 import { HistoricoDoacoesScreen } from ".";
 
 const usuario: Usuario = {

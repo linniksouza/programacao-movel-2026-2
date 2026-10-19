@@ -1,15 +1,26 @@
+import { FC, useRef } from "react";
+import { Animated } from "react-native";
+import { Avatar, IconButton } from "react-native-paper";
+
 import { Instituicao } from "@/data/models/instituicao.model";
-import MaterialDesignIcons from "@react-native-vector-icons/material-design-icons";
-import { useRef } from "react";
-import { Animated, StyleSheet, View } from "react-native";
-import { Avatar, IconButton, Text } from "react-native-paper";
+import {
+    CardInstituicao as CardInstituicaoStyled,
+    ContainerDadosInstituicao,
+    IconeLocalizacao,
+    LocalizacaoInstituicao,
+    NomeInstituicao,
+    TextoOpaco
+} from "./index.styles";
 
 type CardInstituicaoProps = {
     instituicao: Instituicao;
     onPress: () => void;
 };
 
-const CardInstituicao = ({ instituicao, onPress }: CardInstituicaoProps) => {
+const CardInstituicao: FC<CardInstituicaoProps> = ({
+    instituicao,
+    onPress
+}) => {
     const escala = useRef(new Animated.Value(1)).current;
     const estiloAnimacao = {
         transform: [
@@ -21,7 +32,7 @@ const CardInstituicao = ({ instituicao, onPress }: CardInstituicaoProps) => {
 
     const pressionar = () => {
         Animated.spring(escala, {
-            toValue: 0.8,
+            toValue: 0.97,
             useNativeDriver: true
         }).start();
     };
@@ -33,52 +44,34 @@ const CardInstituicao = ({ instituicao, onPress }: CardInstituicaoProps) => {
     };
 
     return (
-        <View
-            testID="container-card-instituicao"
-            style={styles.cardInstituicao}
-        >
-            <Avatar.Image
-                source={{ uri: instituicao.imagemPrincipal }}
-            />
+        <Animated.View style={estiloAnimacao}>
+            <CardInstituicaoStyled testID="container-card-instituicao">
+                <Avatar.Image source={{ uri: instituicao.imagemPrincipal }} />
 
-            <View style={{ width: "60%" }}>
-                <Text variant="bodyLarge" style={{ fontWeight: "bold" }}>
-                    {instituicao.nome}
-                </Text>
-                <View style={styles.localizacaoInstituicao}>
-                    <MaterialDesignIcons name="google-maps" size={10} color="#c3c3c3" />
-                    <Text variant="bodySmall">
-                        {instituicao.localizacao}
-                    </Text>
-                </View>
-            </View>
+                <ContainerDadosInstituicao>
+                    <NomeInstituicao variant="bodyLarge">
+                        {instituicao.nome}
+                    </NomeInstituicao>
 
-            <Animated.View style={estiloAnimacao}>
+                    <LocalizacaoInstituicao>
+                        <IconeLocalizacao name="map-marker" size={10} />
+                        <TextoOpaco variant="bodySmall">
+                            {instituicao.localizacao}
+                        </TextoOpaco>
+                    </LocalizacaoInstituicao>
+                </ContainerDadosInstituicao>
+
+                
                 <IconButton
                     testID="btn-detalhes-instituicao"
                     icon="eye"
-                    style={{ marginStart: "auto" }}
                     onPressIn={pressionar}
                     onPressOut={soltar}
                     onPress={onPress}
                 />
-            </Animated.View>
-        </View>
+            </CardInstituicaoStyled>
+        </Animated.View>
     );
 };
-
-const styles = StyleSheet.create({
-    cardInstituicao: {
-        flexDirection: "row",
-        alignItems: "center",
-        gap: 20,
-        marginVertical: 10
-    },
-    localizacaoInstituicao: {
-        flexDirection: "row",
-        alignItems: "center",
-        gap: 5,
-    }
-});
 
 export { CardInstituicao };

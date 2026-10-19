@@ -4,49 +4,56 @@ import {
     NativeStackScreenProps
 } from "@react-navigation/native-stack";
 import { DateTime } from "luxon";
-import { useState } from "react";
-import {
-    Alert,
-    StyleSheet,
-    View
-} from "react-native";
-import {
-    Avatar,
-    Button,
-    Snackbar,
-    Surface,
-    Text,
-    TextInput
-} from "react-native-paper";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { FC, useState } from "react";
+import { Alert } from "react-native";
+import { Avatar } from "react-native-paper";
 
 import { buscarDemanda } from "@/data/api/demandas";
 import { buscarUsuario } from "@/data/api/usuarios";
 import { doacoesRepositoryFactory } from "@/data/drizzle";
 import { Doacao, ItemDoacao } from "@/data/models/doacao.model";
 import { DemandasStackParams } from "@/navigation/Stack";
+import { ScreenContainer } from "@/screens/index.styles";
 import { ListaItensDoacao } from "@/ui/components/ListaItensDoacao";
+import { useSnackbar } from "@/ui/hooks/snackbar";
+import {
+    BotaoAcao,
+    CardInstituicao,
+    ContainerBotoesAcao,
+    ContainerDadosInstituicao,
+    ContainerRegistrarDoacao,
+    ContainerSecao,
+    InputObservacoes,
+    LocalizacaoInstituicao,
+    NomeInstituicao,
+    TextoSecao
+} from "./index.styles";
 
 type RegistroDoacaoScreenProps = NativeStackScreenProps<DemandasStackParams, "RegistrarDoacao">;
 
-const RegistroDoacaoScreen = ({ route }: RegistroDoacaoScreenProps) => {
+const RegistroDoacaoScreen: FC<RegistroDoacaoScreenProps> = ({
+    route
+}) => {
+    const idDemanda = route.params.idDemanda;
+    const demanda = buscarDemanda(idDemanda);
+    const usuario = buscarUsuario();
+    const doacoesRepository = doacoesRepositoryFactory();
+    const navigation = useNavigation<NativeStackNavigationProp<DemandasStackParams>>();
+    const { showSnackbar } = useSnackbar();
+
     const [quantidades, setQuantidades] = useState<Record<string, number>>({});
     const [observacoes, setObservacoes] = useState("");
     const [salvando, setSalvando] = useState(false);
-    const [exibirSnackbar, setExibirSnackbar] = useState(false);
-    const [mensagemSnackbar, setMensagemSnackbar] = useState("");
-    const navigation = useNavigation<NativeStackNavigationProp<DemandasStackParams>>();
-    const idDemanda = route.params.idDemanda;
-    const demanda = buscarDemanda(idDemanda);
-    const doacoesRepository = doacoesRepositoryFactory();
 
-    const usuario = buscarUsuario();
-
-    const handleQuantidadeChange = (key: string, value: number) => {
+    const handleChangeQuantidade = (key: string, value: number) => {
         setQuantidades((prev) => ({
             ...prev,
             [key]: value
         }));
+    };
+    const limparDoacao = () => {
+        setQuantidades({});
+        setObservacoes("");
     };
 
     const confirmarDoacao = () => {
@@ -102,119 +109,94 @@ const RegistroDoacaoScreen = ({ route }: RegistroDoacaoScreenProps) => {
             try{
                 const sucesso = await doacoesRepository.salvarDoacao(payload);
                 if(sucesso){
-                    setMensagemSnackbar("Doação registrada com sucesso!");
+                    showSnackbar("Doação registrada com sucesso!");
                     navigation.navigate("Demandas");
                 }else{
-                    setMensagemSnackbar("Falha no registro da doação. Tente novamente.");
+                    showSnackbar("Falha no registro da doação. Tente novamente.");
                 }
             }catch(e: any){
                 console.error("Erro ao tentar registrar uma doação:", e);
-                setMensagemSnackbar("Falha no registro da doação. Tente novamente.");
+                showSnackbar("Falha no registro da doação. Tente novamente.");
             }finally{
+                limparDoacao();
                 setSalvando(false);
-                setExibirSnackbar(true);
             }
         }, 3000);
     };
 
     return (
-        <SafeAreaView style={styles.container}>
-            <View>
-                <Text variant="titleLarge">
-                    Instituição
-                </Text>
+        <ScreenContainer>
+            <ContainerRegistrarDoacao>
+                <ContainerSecao>
+                    <TextoSecao variant="titleMedium">
+                        Instituição
+                    </TextoSecao>
 
-                <Surface style={styles.infosInstituicao} elevation={2}>
-                    <Avatar.Image source={{ uri: demanda?.instituicao.imagemPrincipal }} />
+                    <CardInstituicao elevation={2}>
+                        <Avatar.Image
+                            source={{ uri: demanda?.instituicao.imagemPrincipal }}
+                        />
 
-                    <View>
-                        <Text variant="bodyLarge" style={{ fontWeight: "bold" }}>
-                            {demanda?.instituicao.nome}
-                        </Text>
-                        <Text variant="bodySmall">
-                            {demanda?.instituicao.localizacao}
-                        </Text>
-                    </View>
-                </Surface>
-            </View>
+                        <ContainerDadosInstituicao>
+                            <NomeInstituicao variant="titleMedium">
+                                {demanda?.instituicao.nome}
+                            </NomeInstituicao>
+                            <LocalizacaoInstituicao variant="bodyMedium">
+                                {demanda?.instituicao.localizacao}
+                            </LocalizacaoInstituicao>
+                        </ContainerDadosInstituicao>
+                    </CardInstituicao>
+                </ContainerSecao>
 
-            <ListaItensDoacao
-                itensDoacao={demanda!.itensDoacao}
-                quantidades={quantidades}
-                onChangeQuantidade={handleQuantidadeChange}
-            />
+                <ContainerSecao>
+                    <TextoSecao variant="titleMedium">
+                        Itens para doação
+                    </TextoSecao>
 
-            <View style={styles.observacoesDoacao}>
-                <Text variant="titleLarge">Observações</Text>
-                <TextInput
-                    style={styles.inputObservacoesDoacao}
-                    mode="outlined"
-                    value={observacoes}
-                    onChangeText={setObservacoes}
-                    placeholder="Ex.: Entregue na portaria"
-                    multiline
-                    numberOfLines={3}
-                />
-            </View>
+                    <ListaItensDoacao
+                        itensDoacao={demanda!.itensDoacao}
+                        quantidades={quantidades}
+                        onChangeQuantidade={handleChangeQuantidade}
+                    />
+                </ContainerSecao>
 
-            <View style={styles.botoesAcaoDoacao}>
-                <Button
-                    testID="btn-confirmar-doacao"
-                    mode="contained"
-                    loading={salvando}
-                    disabled={salvando}
-                    onPress={confirmarDoacao}
-                >
-                    Confirmar Doação
-                </Button>
-                <Button
-                    testID="btn-cancelar-doacao"
-                    mode="text"
-                    disabled={salvando}
-                >
-                    Cancelar Doação
-                </Button>
-            </View>
+                <ContainerSecao>
+                    <TextoSecao variant="titleMedium">
+                        Observações (opcional)
+                    </TextoSecao>
 
-            <Snackbar
-                style={{ alignSelf: "center" }}
-                visible={exibirSnackbar}
-                onDismiss={() => setExibirSnackbar(false)}
-                duration={3000}
-            >
-                {mensagemSnackbar}
-            </Snackbar>
-        </SafeAreaView>
+                    <InputObservacoes
+                        mode="outlined"
+                        value={observacoes}
+                        onChangeText={setObservacoes}
+                        placeholder="Ex.: Entregue na portaria"
+                        multiline
+                        numberOfLines={5}
+                    />
+                </ContainerSecao>
+
+                <ContainerBotoesAcao>
+                    <BotaoAcao
+                        testID="btn-confirmar-doacao"
+                        mode="contained"
+                        loading={salvando}
+                        disabled={salvando}
+                        onPress={confirmarDoacao}
+                    >
+                        Confirmar Doação
+                    </BotaoAcao>
+                    <BotaoAcao
+                        testID="btn-cancelar-doacao"
+                        mode="text"
+                        disabled={salvando}
+                    >
+                        Cancelar Doação
+                    </BotaoAcao>
+                </ContainerBotoesAcao>
+            </ContainerRegistrarDoacao>
+        </ScreenContainer>
     );
 };
 
-const styles = StyleSheet.create({
-    container: {
-        paddingHorizontal: 20
-    },
-    infosInstituicao: {
-        marginTop: 10,
-        paddingVertical: 10,
-        paddingStart: 10,
-        flexDirection: "row",
-        alignItems: "center",
-        gap: 20,
-        borderRadius: 15
-    },
-    itensDoacao: {
-        marginTop: 10,
-        borderRadius: 15
-    },
-    observacoesDoacao: {
-        marginTop: 20
-    },
-    inputObservacoesDoacao: {
-        marginTop: 10
-    },
-    botoesAcaoDoacao: {
-        marginTop: 20,
-        gap: 10
-    }
-});
-
 export { RegistroDoacaoScreen };
+
