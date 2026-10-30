@@ -1,10 +1,10 @@
-import { Doacao } from "@/data/models/doacao.model";
+import { DoacaoLocal } from "@/data/models/doacao.model";
 
 interface DoacoesRepository {
 
-    salvarDoacao(doacao: Doacao): Promise<boolean>;
+    salvarDoacao(doacao: DoacaoLocal): Promise<boolean>;
 
-    buscarDoacoes(): Promise<Doacao[]>;
+    buscarDoacoes(): Promise<DoacaoLocal[]>;
 
 }
 

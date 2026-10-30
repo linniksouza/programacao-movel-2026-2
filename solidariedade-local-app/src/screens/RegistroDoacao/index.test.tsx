@@ -1,7 +1,7 @@
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { DateTime } from "luxon";
 import { Alert } from "react-native";
 
-import { buscarDemanda } from "@/data/api/demandas";
 import { buscarUsuario } from "@/data/api/usuarios";
 import { doacoesRepositoryFactory } from "@/data/drizzle";
 import { Demanda } from "@/data/models/demanda.model";
@@ -10,35 +10,73 @@ import { DoacoesRepository } from "@/data/repositories/doacoes";
 import { DemandasStackParams } from "@/navigation/Stack";
 import { act, fireEvent, render, waitFor } from "@/utils/test-utils";
 import { RegistroDoacaoScreen } from ".";
+import { Doacao, StatusDoacao } from "@/data/models/doacao.model";
+import { registrarDoacao } from "@/data/api/doacoes";
 
+const dataPostagem = DateTime.now().minus({ days: 3 });
 const usuario: Usuario = {
-    id: "1",
+    cpf: "1",
     nome: "Linnik Souza",
     email: "linniksouza.prof@gmail.com",
     urlImagem: "https://avatars.githubusercontent.com/u/263082479"
 };
 const demanda: Demanda = {
     id: "1",
-    necessidadesInstituicao: "Alimentos não perecíveis",
+    necessidades: "Alimentos não perecíveis",
+    data_postagem: dataPostagem.toISO(),
     instituicao: {
-        id: "1",
+        cnpj: "1",
         nome: "Lar Esperança",
         localizacao: "Compensa",
-        imagemPrincipal: "https://plus.unsplash.com/premium_vector-1724665300883-3af06a418d3c?fm=jpg&q=60&w=3000&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDE1fHx8ZW58MHx8fHx8"
+        imagem_principal: "https://plus.unsplash.com/premium_vector-1724665300883-3af06a418d3c?fm=jpg&q=60&w=3000&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDE1fHx8ZW58MHx8fHx8"
     },
-    itensDoacao: [
-        { nome: "Arroz", unidadeMedida: "Kg" },
-        { nome: "Feijão", unidadeMedida: "Kg" },
-        { nome: "Óleo", unidadeMedida: "Garrafa" },
-        { nome: "Açúcar", unidadeMedida: "Kg" }
+    itens: [
+        {
+            id: "1",
+            nome: "Arroz",
+            unidade_medida: "Kg"
+        },
+        {
+            id: "2",
+            nome: "Feijão",
+            unidade_medida: "Kg"
+        },
+        {
+            id: "3",
+            nome: "Óleo",
+            unidade_medida: "Garrafa"
+        },
+        {
+            id: "4",
+            nome: "Açúcar",
+            unidade_medida: "Kg"
+        }
     ]
 };
+const doacao: Doacao = {
+    id: "1",
+    status_doacao: StatusDoacao.PENDENTE,
+    data_hora_doacao: DateTime.now().toISO(),
+    demanda: {
+        id: demanda.id,
+        necessidades: demanda.necessidades,
+        instituicao: demanda.instituicao.nome,
+        localizacao: demanda.instituicao.localizacao,
+        imagemInstituicao: demanda.instituicao.imagem_principal
+    },
+    itens: [
+        {
+            id: "1",
+            nome: "Arroz",
+            unidade_medida: "Kg",
+            quantidade: 1
+        }
+    ]
+}
 const mockRoute = {
     key: "RegistrarDoacao",
     name: "RegistrarDoacao" as const,
-    params: {
-        idDemanda: demanda.id
-    }
+    params: { demanda }
 };
 const mockNavigation = {} as NativeStackNavigationProp<DemandasStackParams>;
 const mockNavigate = jest.fn();
@@ -52,11 +90,11 @@ jest.mock("@react-navigation/native", () => {
         })
     };
 });
-jest.mock("@/data/api/demandas", () => ({
-    buscarDemanda: jest.fn()
-}));
 jest.mock("@/data/api/usuarios", () => ({
     buscarUsuario: jest.fn()
+}));
+jest.mock("@/data/api/doacoes", () => ({
+    registrarDoacao: jest.fn()
 }));
 jest.mock("@/data/drizzle", () => ({
     doacoesRepositoryFactory: jest.fn()
@@ -74,9 +112,9 @@ describe("Suite de testes de unidade para validar a tela 'RegistroDoacaoScreen",
             salvarDoacao: jest.fn().mockResolvedValue(true)
         };
 
-        jest.mocked(buscarDemanda).mockReturnValue(demanda);
         jest.mocked(buscarUsuario).mockReturnValue(usuario);
         jest.mocked(doacoesRepositoryFactory).mockReturnValue(doacoesRepositoryMock)
+        jest.mocked(registrarDoacao).mockResolvedValue(doacao);
 
         jest.spyOn(Alert, "alert");
     });
@@ -97,8 +135,8 @@ describe("Suite de testes de unidade para validar a tela 'RegistroDoacaoScreen",
 
         expect(getByText(demanda.instituicao.nome)).toBeTruthy();
         expect(getByText(demanda.instituicao.localizacao)).toBeTruthy();
-        for(const item of demanda.itensDoacao){
-            expect(getByText(`${item.nome} (${item.unidadeMedida})`)).toBeTruthy();
+        for(const item of demanda.itens){
+            expect(getByText(`${item.nome} (${item.unidade_medida})`)).toBeTruthy();
         }
     });
 
@@ -160,22 +198,28 @@ describe("Suite de testes de unidade para validar a tela 'RegistroDoacaoScreen",
         
         await act(async () => {
             confirmButton.onPress();
-            jest.advanceTimersByTime(3000);
         });
 
         await waitFor(() => {
+            expect(registrarDoacao).toHaveBeenCalledTimes(1);
             expect(doacoesRepositoryMock.salvarDoacao).toHaveBeenCalledTimes(1);
             expect(doacoesRepositoryMock.salvarDoacao).toHaveBeenCalledWith(
                 expect.objectContaining({
-                    tipoDoacao: "Alimentos não perecíveis",
+                    id: doacao.id,
+                    tipoDoacao: doacao.demanda.necessidades,
                     observacoes: "Coletar na recepção",
-                    idInstituicao: "1",
-                    nomeInstituicao: "Lar Esperança",
-                    idDoador: "1",
-                    nomeDoador: "Linnik Souza",
-                    emailDoador: "linniksouza.prof@gmail.com",
+                    idInstituicao: demanda.instituicao.cnpj,
+                    nomeInstituicao: demanda.instituicao.nome,
+                    cpfDoador: usuario.cpf,
+                    nomeDoador: usuario.nome,
+                    emailDoador: usuario.email,
                     itensDoacao: [
-                        { nome: "Arroz", unidadeMedida: "Kg", quantidade: 1 }
+                        {
+                            id: "1",
+                            nome: "Arroz",
+                            unidadeMedida: "Kg",
+                            quantidade: 1
+                        }
                     ]
                 })
             );
@@ -185,7 +229,7 @@ describe("Suite de testes de unidade para validar a tela 'RegistroDoacaoScreen",
         expect(mockNavigate).toHaveBeenCalledWith("Demandas");
     });
 
-    it("Deve exibir mensagem de erro no snackbar se o repositorio retornar false ao registrar doacao", async () => {
+    it("Deve exibir mensagem de doacao registrada no servidor remoto no snackbar se o repositorio retornar false ao registrar doacao", async () => {
         doacoesRepositoryMock.salvarDoacao.mockResolvedValueOnce(false);
 
         const {
@@ -210,28 +254,33 @@ describe("Suite de testes de unidade para validar a tela 'RegistroDoacaoScreen",
 
         await act(async () => {
             confirmButton.onPress();
-            jest.advanceTimersByTime(3000);
         });
 
         await waitFor(() => {
+            expect(registrarDoacao).toHaveBeenCalledTimes(1);
             expect(doacoesRepositoryMock.salvarDoacao).toHaveBeenCalledTimes(1);
             expect(doacoesRepositoryMock.salvarDoacao).toHaveBeenCalledWith(
                 expect.objectContaining({
-                    tipoDoacao: "Alimentos não perecíveis",
-                    observacoes: "",
-                    idInstituicao: "1",
-                    nomeInstituicao: "Lar Esperança",
-                    idDoador: "1",
-                    nomeDoador: "Linnik Souza",
-                    emailDoador: "linniksouza.prof@gmail.com",
+                    id: doacao.id,
+                    tipoDoacao: doacao.demanda.necessidades,
+                    idInstituicao: demanda.instituicao.cnpj,
+                    nomeInstituicao: demanda.instituicao.nome,
+                    cpfDoador: usuario.cpf,
+                    nomeDoador: usuario.nome,
+                    emailDoador: usuario.email,
                     itensDoacao: [
-                        { nome: "Arroz", unidadeMedida: "Kg", quantidade: 1 }
+                        {
+                            id: "1",
+                            nome: "Arroz",
+                            unidadeMedida: "Kg",
+                            quantidade: 1
+                        }
                     ]
                 })
             );
         });
 
-        expect(await findByText("Falha no registro da doação. Tente novamente.")).toBeTruthy();
-        expect(mockNavigate).not.toHaveBeenCalled();
+        expect(await findByText("Doação registrada no servidor remoto.")).toBeTruthy();
+        expect(mockNavigate).toHaveBeenCalledWith("Demandas");
     });
 });

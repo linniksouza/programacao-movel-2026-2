@@ -2,20 +2,21 @@ import { DateTime } from "luxon";
 
 import { conexao } from "@/data/drizzle/conexao";
 import { doacoes, itensDoacoes } from "@/data/drizzle/schema";
-import { Doacao } from "@/data/models/doacao.model";
+import { DoacaoLocal } from "@/data/models/doacao.model";
 import { DoacoesRepository } from "@/data/repositories/doacoes";
 
 class DrizzleDoacoesRepository implements DoacoesRepository {
 
     private static _instancia?: DoacoesRepository;
 
-    public async salvarDoacao(doacao: Doacao): Promise<boolean> {
+    public async salvarDoacao(doacao: DoacaoLocal): Promise<boolean> {
         const [doacaoEntity] = await conexao.insert(doacoes).values({
+            id: doacao.id,
             tipoDoacao: doacao.tipoDoacao,
             observacoes: doacao.observacoes,
             idInstituicao: doacao.idInstituicao,
             nomeInstituicao: doacao.nomeInstituicao,
-            idDoador: parseInt(doacao.idDoador),
+            cpfDoador: doacao.cpfDoador,
             nomeDoador: doacao.nomeDoador,
             emailDoador: doacao.emailDoador,
             dataHoraDoacao: doacao.dataHoraDoacao.toISO()
@@ -23,6 +24,7 @@ class DrizzleDoacoesRepository implements DoacoesRepository {
 
         await conexao.insert(itensDoacoes).values([
             ...doacao.itensDoacao.map((item) => ({
+                id: item.id,
                 nome: item.nome,
                 unidadeMedida: item.unidadeMedida,
                 quantidade: item.quantidade,
@@ -33,7 +35,7 @@ class DrizzleDoacoesRepository implements DoacoesRepository {
         return true;
     }
 
-    public async buscarDoacoes(): Promise<Doacao[]> {
+    public async buscarDoacoes(): Promise<DoacaoLocal[]> {
         const entities = await conexao.query.doacoes.findMany({
             with: {
                 itensDoacao: true
@@ -41,17 +43,17 @@ class DrizzleDoacoesRepository implements DoacoesRepository {
         });
 
         return entities.map((doacao) => ({
-            id: doacao.id.toString(),
+            id: doacao.id,
             tipoDoacao: doacao.tipoDoacao,
             observacoes: doacao.observacoes!,
             idInstituicao: doacao.idInstituicao,
-            nomeInstituicao: doacao.nomeDoador,
-            idDoador: doacao.idDoador.toString(),
+            nomeInstituicao: doacao.nomeInstituicao,
+            cpfDoador: doacao.cpfDoador,
             nomeDoador: doacao.nomeDoador,
             emailDoador: doacao.emailDoador,
             dataHoraDoacao: DateTime.fromISO(doacao.dataHoraDoacao!),
             itensDoacao: [...doacao.itensDoacao.map((item) => ({
-                id: item.id.toString(),
+                id: item.id,
                 nome: item.nome,
                 unidadeMedida: item.unidadeMedida,
                 quantidade: item.quantidade
@@ -68,4 +70,3 @@ class DrizzleDoacoesRepository implements DoacoesRepository {
 }
 
 export { DrizzleDoacoesRepository };
-

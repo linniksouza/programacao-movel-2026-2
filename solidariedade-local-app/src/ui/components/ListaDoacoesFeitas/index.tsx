@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { FlatList } from "react-native";
 
-import { Doacao } from "@/data/models/doacao.model";
+import { DoacaoLocal } from "@/data/models/doacao.model";
 import { CardDoacaoFeita } from "@/ui/components/CardDoacaoFeita";
 import {
     ListaDoacoesFeitas as ListaDoacoesFeitasStyled,
@@ -9,7 +9,7 @@ import {
 } from "./index.styles";
 
 type ListaDoacoesFeitasProps = {
-    doacoes: Doacao[];
+    doacoes: DoacaoLocal[];
     refreshing: boolean;
     onRefresh: () => void;
 };
@@ -26,10 +26,10 @@ const ListaDoacoesFeitas: FC<ListaDoacoesFeitasProps> = ({
             </TextoSemDoacao>
         );
     };
-    const renderDoacaoFeita = ({ item }: { item: Doacao }) => {
+    const renderDoacaoFeita = ({ item }: { item: DoacaoLocal }) => {
         return <CardDoacaoFeita doacao={item} />;
     };
-    const keyExtractorDoacaoFeita = (item: Doacao) => item.id!;
+    const keyExtractorDoacaoFeita = (item: DoacaoLocal) => item.id;
 
     return (
         <ListaDoacoesFeitasStyled>

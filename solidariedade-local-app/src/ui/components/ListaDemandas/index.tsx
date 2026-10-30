@@ -13,10 +13,14 @@ import {
 
 type ListaDemandasProps = {
     demandas: Demanda[];
+    refreshing: boolean;
+    onRefresh: () => void;
 };
 
 const ListaDemandas: FC<ListaDemandasProps> = ({
-    demandas
+    demandas,
+    refreshing,
+    onRefresh
 }) => {
     const navigation = useNavigation<NativeStackNavigationProp<DemandasStackParams>>();
 
@@ -24,7 +28,7 @@ const ListaDemandas: FC<ListaDemandasProps> = ({
         const onPress = () => {
             navigation.navigate(
                 "RegistrarDoacao",
-                { idDemanda: item.id }
+                { demanda: item }
             );
         };
 
@@ -43,6 +47,8 @@ const ListaDemandas: FC<ListaDemandasProps> = ({
                 data={demandas}
                 renderItem={renderDemanda}
                 keyExtractor={keyExtractorDemanda}
+                refreshing={refreshing}
+                onRefresh={onRefresh}
                 scrollEnabled
             />
         </ListaDemandasStyled>

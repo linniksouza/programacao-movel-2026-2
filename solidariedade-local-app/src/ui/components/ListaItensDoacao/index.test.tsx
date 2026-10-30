@@ -4,12 +4,14 @@ import { ListaItensDoacao } from ".";
 
 const itensDoacao: ItemDoacaoDemanda[] = [
     {
+        id: "1",
         nome: "Arroz",
-        unidadeMedida: "Kg"
+        unidade_medida: "Kg"
     },
     {
+        id: "2",
         nome: "Feijão",
-        unidadeMedida: "Kg"
+        unidade_medida: "Kg"
     },
 ];
 const onChangeQuantidade = jest.fn();
@@ -35,7 +37,7 @@ describe("Suite de testes de unidade para validar o componente de UI 'ListaItens
 
     it("Deve executar a acao de mudar quantidade para um item ao tocar no botao de aumentar uma unidade do item de doacao", async () => {
         const item = itensDoacao[0];
-        const chave = `${item.nome}-${item.unidadeMedida}`;
+        const chave = `${item.nome}-${item.unidade_medida}`;
 
         const {
             getAllByTestId

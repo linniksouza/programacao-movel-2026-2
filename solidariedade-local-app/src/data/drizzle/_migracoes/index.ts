@@ -13,12 +13,12 @@ const migrations: Migration[] = [
         up: async (db) => {
             await db.execAsync(`
             CREATE TABLE doacoes (
-                id integer PRIMARY KEY AUTOINCREMENT NOT NULL,
+                id text PRIMARY KEY NOT NULL,
                 tipo_doacao text NOT NULL,
                 observacoes text,
                 id_instituicao text NOT NULL,
                 nome_instituicao text NOT NULL,
-                id_doador integer NOT NULL,
+                cpf_doador integer NOT NULL,
                 nome_doador text NOT NULL,
                 email_doador text NOT NULL,
                 data_hora_doacao text DEFAULT 'CURRENT_TIMESTAMP'
@@ -31,11 +31,11 @@ const migrations: Migration[] = [
         up: async (db) => {
             await db.execAsync(`
             CREATE TABLE itens_doacoes (
-                id integer PRIMARY KEY AUTOINCREMENT NOT NULL,
+                id text PRIMARY KEY NOT NULL,
                 nome text NOT NULL,
                 unidade_medida text NOT NULL,
                 quantidade integer NOT NULL,
-                id_doacao integer NOT NULL,
+                id_doacao text NOT NULL,
                 FOREIGN KEY (id_doacao) REFERENCES doacoes(id) ON UPDATE no action ON DELETE cascade
             );
         `);

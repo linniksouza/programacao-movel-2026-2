@@ -1,7 +1,7 @@
 import { FC, useCallback, useEffect, useState } from "react";
 
 import { doacoesRepositoryFactory } from "@/data/drizzle";
-import { Doacao } from "@/data/models/doacao.model";
+import { DoacaoLocal } from "@/data/models/doacao.model";
 import { ScreenContainer } from "@/screens/index.styles";
 import { CabecalhoHistoricoDoacoes } from "@/ui/components/CabecalhoHistoricoDoacoes";
 import { ListaDoacoesFeitas } from "@/ui/components/ListaDoacoesFeitas";
@@ -9,7 +9,7 @@ import { ListaDoacoesFeitas } from "@/ui/components/ListaDoacoesFeitas";
 const HistoricoDoacoesScreen: FC = () => {
     const doacoesRepository = doacoesRepositoryFactory();
 
-    const [doacoes, setDoacoes] = useState<Doacao[]>([]);
+    const [doacoes, setDoacoes] = useState<DoacaoLocal[]>([]);
     const [buscandoDoacoes, setBuscandoDoacoes] = useState(false);
 
     const buscarDoacoes = async () => {
@@ -42,3 +42,4 @@ const HistoricoDoacoesScreen: FC = () => {
 };
 
 export { HistoricoDoacoesScreen };
+

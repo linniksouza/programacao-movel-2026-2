@@ -1,5 +1,5 @@
 interface Usuario {
-    id: string;
+    cpf: string;
     nome: string;
     email: string;
     urlImagem: string;

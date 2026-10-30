@@ -3,10 +3,11 @@ import { fireEvent, render } from "@/utils/test-utils";
 import { ItemDoacao } from ".";
 
 const item: ItemDoacaoDemanda = {
+    id: "1",
     nome: "Arroz",
-    unidadeMedida: "Kg",
+    unidade_medida: "Kg",
 };
-const itemUnidade = `${item.nome} (${item.unidadeMedida})`;
+const itemUnidade = `${item.nome} (${item.unidade_medida})`;
 const setQuantidade = jest.fn();
 
 describe("Suite de testes de unidade para validar o componente de UI 'ItemDoacao'", () => {
@@ -147,7 +148,7 @@ describe("Suite de testes de unidade para validar o componente de UI 'ItemDoacao
     it("Deve aumentar ate o teto maximo de itens ao tocar no botao de aumentar tres vezes com uma quantidade igual a duas unidades menor que a quantidade maxima de itens", async () => {
         const itemDoacao: ItemDoacaoDemanda = {
             ...item,
-            qtdMaxima: 5
+            quantidade_maxima: 5
         };
 
         const {

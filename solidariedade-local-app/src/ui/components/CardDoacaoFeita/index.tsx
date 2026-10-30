@@ -1,8 +1,7 @@
 import { FC } from "react";
 import { Avatar, Text } from "react-native-paper";
 
-import { buscarInstituicao } from "@/data/api/instituicoes";
-import { Doacao } from "@/data/models/doacao.model";
+import { DoacaoLocal } from "@/data/models/doacao.model";
 import {
     CardDoacaoFeita as CardDoacaoFeitaStyled,
     ContainerDadosDoacao,
@@ -10,13 +9,12 @@ import {
 } from "./index.styles";
 
 type CardDoacaoFeitaProps = {
-    doacao: Doacao;
+    doacao: DoacaoLocal;
 };
 
 const CardDoacaoFeita: FC<CardDoacaoFeitaProps> = ({
     doacao
 }) => {
-    const instituicao = buscarInstituicao(doacao.idInstituicao);
     const itens = doacao.itensDoacao.length;
     const unidades = doacao.itensDoacao.reduce((acc, item) => acc + item.quantidade, 0);
     const itensUnidades = `${itens} itens - ${unidades} unidades`;
@@ -27,11 +25,14 @@ const CardDoacaoFeita: FC<CardDoacaoFeitaProps> = ({
             testID="card-doacao-feita"
             elevation={2}
         >
-            <Avatar.Image source={{ uri: instituicao?.imagemPrincipal }} />
+            {("imagem_principal" in doacao)
+                ? <Avatar.Image source={{ uri: doacao.imagem_principal as string }} />
+                : <Avatar.Text size={50} label={doacao.nomeInstituicao.charAt(0)} />
+            }
 
             <ContainerDadosDoacao>
                 <Text variant="titleMedium">
-                    {instituicao?.nome}
+                    {doacao.nomeInstituicao}
                 </Text>
                 <Text variant="bodySmall">
                     {doacao.tipoDoacao}
@@ -51,3 +52,4 @@ const CardDoacaoFeita: FC<CardDoacaoFeitaProps> = ({
 };
 
 export { CardDoacaoFeita };
+

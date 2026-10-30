@@ -3,7 +3,7 @@ import { render } from "@/utils/test-utils";
 import { CabecalhoPerfil } from ".";
 
 const usuario: Usuario = {
-    id: "1",
+    cpf: "1",
     nome: "Linnik Souza",
     email: "linniksouza.prof@gmail.com",
     urlImagem: "https://avatars.githubusercontent.com/u/263082479"

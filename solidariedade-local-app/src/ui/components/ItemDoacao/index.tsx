@@ -25,8 +25,8 @@ const ItemDoacao: FC<ItemDoacaoProps> = ({
             setQuantidade(quantidade - 1);
     };
     const onAumentar = () => {
-        if(item.qtdMaxima){
-            if(quantidade < item.qtdMaxima)
+        if(item.quantidade_maxima){
+            if(quantidade < item.quantidade_maxima)
                 setQuantidade(quantidade + 1);
         }else{
             setQuantidade(quantidade + 1);
@@ -36,7 +36,7 @@ const ItemDoacao: FC<ItemDoacaoProps> = ({
     return (
         <ItemDoacaoStyled testID="container-item-doacao">
             <DadosItemDoacao variant="bodyMedium">
-                {item.nome} ({item.unidadeMedida})
+                {item.nome} ({item.unidade_medida})
             </DadosItemDoacao>
 
             <ControlesQuantidadeItemDoacao>
