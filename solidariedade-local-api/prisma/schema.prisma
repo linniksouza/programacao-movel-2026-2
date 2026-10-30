@@ -1,0 +1,87 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+    provider = "prisma-client"
+    output   = "../src/frameworks/comum/prismaclient"
+}
+
+datasource db {
+    provider = "postgresql"
+}
+
+model Instituicao {
+    cnpj                String @id @map("cnpj")
+    nome                String @map("nome")
+    biografia           String @map("biografia")
+    localizacao         String @map("localizacao")
+    areasAtuacao        Json @map("areas_atuacao")
+    enderecoSite        String @unique @map("endereco_site")
+    imagemPrincipal     String @map("imagem_principal")
+    imagemCapa          String? @map("imagem_capa")
+    demandas            DemandaDoacao[]
+
+    @@map("instituicoes")
+}
+
+model DemandaDoacao {
+    id                  String @id @map("id")
+    necessidades        String @map("necessidades_doacao")
+    status              String @map("status_demanda")
+    dataPostagem        DateTime @map("data_postagem") @default(now())
+    cnpjInstituicao     String @map("cnpj_instituicao")
+    instituicao         Instituicao @relation(fields: [cnpjInstituicao], references: [cnpj])
+    itensDoacao         ItemDemandaDoacao[]
+    doacoes             DoacaoFeita[]
+
+    @@map("demandas_doacoes")
+}
+
+model ItemDemandaDoacao {
+    id                  String @id @map("id")
+    nome                String @map("nome")
+    unidadeMedida       String @map("unidade_medida")
+    quantidadeMaxima    Int? @map("quantidade_maxima")
+    idDemanda           String @map("id_demanda")
+    demanda             DemandaDoacao @relation(fields: [idDemanda], references: [id])
+
+    @@map("itens_demandas_doacoes")
+}
+
+model Doador {
+    cpf                 String  @id @map("cpf")
+    nome                String  @map("nome")
+    email               String  @unique @map("email")
+    urlImagem           String? @map("url_imagem")
+    origemConta         String @map("origem_conta")
+    doacoes             DoacaoFeita[]
+
+    @@map("doadores")
+}
+
+model DoacaoFeita {
+    id                  String @id @map("id")
+    observacoes         String? @map("observacoes")
+    dataHoraDoacao      DateTime @map("data_hora_doacao")
+    statusDoacao        String @map("status_doacao")
+    idDemanda           String @map("id_demanda")
+    cpfDoador           String @map("cpf_doador")
+    demanda             DemandaDoacao @relation(fields: [idDemanda], references: [id])
+    doador              Doador @relation(fields: [cpfDoador], references: [cpf])
+    itensDoacao         ItemDoacaoFeita[]
+
+    @@map("doacoes_feitas")
+}
+
+model ItemDoacaoFeita {
+    id                  String @id @map("id")
+    nome                String @map("nome")
+    unidadeMedida       String @map("unidade_medida")
+    quantidade          Int @map("quantidade")
+    idDoacao            String @map("id_doacao")
+    doacao              DoacaoFeita @relation(fields: [idDoacao], references: [id])
+
+    @@map("itens_doacoes_feitas")
+}

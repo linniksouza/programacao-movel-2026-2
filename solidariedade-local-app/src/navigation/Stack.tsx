@@ -7,11 +7,13 @@ import { DemandasScreen } from "@/screens/Demandas";
 import { DetalhesInstituicaoScreen } from "@/screens/DetalhesInstituicao";
 import { InstituicoesScreen } from "@/screens/Instituicoes";
 import { RegistroDoacaoScreen } from "@/screens/RegistroDoacao";
+import { Instituicao } from "@/data/models/instituicao.model";
+import { Demanda } from "@/data/models/demanda.model";
 
 type DemandasStackParams = {
     Demandas: undefined;
     RegistrarDoacao: {
-        idDemanda: string;
+        demanda: Demanda;
     }
 };
 
@@ -39,7 +41,7 @@ const DemandasStack = createNativeStackNavigator<DemandasStackParams>({
 type InstituicoesStackParams = {
     Instituicoes: undefined;
     DetalhesInstituicao: {
-        idInstituicao: string;
+        instituicao: Instituicao;
     };
 };
 

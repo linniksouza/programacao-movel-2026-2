@@ -19,7 +19,7 @@ const ListaItensDoacao: FC<ListaItensDoacaoProps> = ({
     quantidades,
     onChangeQuantidade
 }) => {
-    const keyExtractorItemDoacao = (item: ItemDoacaoDemanda) => `${item.nome}-${item.unidadeMedida}`;
+    const keyExtractorItemDoacao = (item: ItemDoacaoDemanda) => `${item.nome}-${item.unidade_medida}`;
     const renderItemDoacao = ({ item }: { item: ItemDoacaoDemanda }) => {
         const key = keyExtractorItemDoacao(item);
         const quantidade = quantidades[key] || 0;

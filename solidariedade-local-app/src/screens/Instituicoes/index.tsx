@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 
 import { buscarInstituicoes } from "@/data/api/instituicoes";
 import { Instituicao } from "@/data/models/instituicao.model";
@@ -10,11 +10,29 @@ import {
     ContainerInstituicoes,
     TituloCabecalhoInstituicoes
 } from "./index.styles";
+import { useSnackbar } from "@/ui/hooks/snackbar";
 
 const InstituicoesScreen: FC = () => {
-    const instituicoes = buscarInstituicoes();
+    const { showSnackbar } = useSnackbar();
+
+    const [instituicoes, setInstituicoes] = useState<Instituicao[]>([]);
+    const [buscandoInstituicoes, setBuscandoInstituicoes] = useState(false);
     const [sentencaBusca, setSentencaBusca] = useState("");
 
+    const onBuscarInstituicoes = async () => {
+        try{
+            const dadosInstituicoes = await buscarInstituicoes();
+            setInstituicoes([...dadosInstituicoes]);
+        }catch(e: any){
+            const erro = e as Error;
+            showSnackbar(erro.message, 5000);
+        }
+    };
+    const onRefreshInstituicoes = async () => {
+        setBuscandoInstituicoes(true);
+        await onBuscarInstituicoes();
+        setBuscandoInstituicoes(false);
+    };
     const filtrarInstituicoes = (instituicao: Instituicao): boolean => {
         const termo = sentencaBusca.trim().toLowerCase();
 
@@ -27,6 +45,10 @@ const InstituicoesScreen: FC = () => {
         );
     };
     const instituicoesFiltradas = instituicoes.filter(filtrarInstituicoes);
+
+    useEffect(() => {
+        onBuscarInstituicoes();
+    }, []);
 
     return (
         <ScreenContainer>
@@ -45,6 +67,8 @@ const InstituicoesScreen: FC = () => {
                 {/* Lista de instituicoes */}
                 <ListaInstituicoes
                     instituicoes={instituicoesFiltradas}
+                    refreshing={buscandoInstituicoes}
+                    onRefresh={onRefreshInstituicoes}
                 />
             </ContainerInstituicoes>
         </ScreenContainer>

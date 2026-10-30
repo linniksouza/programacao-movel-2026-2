@@ -1,0 +1,12 @@
+services:
+  solidariedade_local_db:
+    container_name: solidariedade_local_db
+    image: postgres:17-alpine
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: pass@2026
+      POSTGRES_DB: solidariedadelocaldb
+    volumes:
+      - ./data/postgresql:/var/lib/postgresql/data

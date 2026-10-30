@@ -57,17 +57,17 @@ const CardDemanda: FC<CardDemandaProps> = ({
                     mode="outlined"
                 >
                     <ContainerCardDemanda>
-                        <ImagemInstituicao source={{ uri: demanda.instituicao.imagemPrincipal }} />
+                        <ImagemInstituicao source={{ uri: demanda.instituicao.imagem_principal }} />
 
                         <ConteudoCardDemanda>
                             <NomeInstituicao variant="titleLarge">
                                 {demanda.instituicao.nome}
                             </NomeInstituicao>
                             <NecessidadeDoacao variant="bodyMedium">
-                                {demanda.necessidadesInstituicao}
+                                {demanda.necessidades}
                             </NecessidadeDoacao>
                             <TextoOpaco variant="bodySmall">
-                                {demanda.itensDoacao.slice(0, 1).map(i => i.nome).join(", ")}
+                                {demanda.itens.slice(0, 1).map(i => i.nome).join(", ")}
                             </TextoOpaco>
                             <LocalizacaoInstituicao>
                                 <IconeLocalizacaoInstituicao name="google-maps" size={15} />

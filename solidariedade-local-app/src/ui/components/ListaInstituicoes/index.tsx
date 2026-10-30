@@ -13,10 +13,14 @@ import {
 
 type ListaInstituicoesProps = {
     instituicoes: Instituicao[];
+    refreshing: boolean;
+    onRefresh: () => void;
 };
 
 const ListaInstituicoes: FC<ListaInstituicoesProps> = ({
-    instituicoes
+    instituicoes,
+    refreshing,
+    onRefresh
 }) => {
     const navigation = useNavigation<NativeStackNavigationProp<InstituicoesStackParams>>();
 
@@ -24,14 +28,14 @@ const ListaInstituicoes: FC<ListaInstituicoesProps> = ({
         const onPress = () => {
             navigation.navigate(
                 "DetalhesInstituicao",
-                { idInstituicao: item.id }
+                { instituicao: item }
             );
         };
 
         return <CardInstituicao instituicao={item} onPress={onPress} />;
     };
     const renderSeparatorInstituicao = () => <Divider bold />;
-    const keyExtractorInstituicao = (item: Instituicao) => item.id;
+    const keyExtractorInstituicao = (item: Instituicao) => item.cnpj;
 
     return (
         <ListaInstituicoesStyled>
@@ -41,6 +45,8 @@ const ListaInstituicoes: FC<ListaInstituicoesProps> = ({
                 renderItem={renderInstituicao}
                 keyExtractor={keyExtractorInstituicao}
                 ItemSeparatorComponent={renderSeparatorInstituicao}
+                refreshing={refreshing}
+                onRefresh={onRefresh}
                 scrollEnabled
             />
         </ListaInstituicoesStyled>

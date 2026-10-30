@@ -1,16 +1,18 @@
 import { Instituicao } from "./instituicao.model";
 
 interface ItemDoacaoDemanda {
+    id: string;
     nome: string;
-    unidadeMedida: string;
-    qtdMaxima?: number;
+    unidade_medida: string;
+    quantidade_maxima?: number;
 }
 
 interface Demanda {
     id: string;
-    necessidadesInstituicao: string;
-    itensDoacao: ItemDoacaoDemanda[];
-    instituicao: Pick<Instituicao, "id" | "nome" | "localizacao" | "imagemPrincipal">;
+    necessidades: string;
+    data_postagem: string;
+    itens: ItemDoacaoDemanda[];
+    instituicao: Pick<Instituicao, "cnpj" | "nome" | "localizacao" | "imagem_principal">;
 }
 
 export { Demanda, ItemDoacaoDemanda };

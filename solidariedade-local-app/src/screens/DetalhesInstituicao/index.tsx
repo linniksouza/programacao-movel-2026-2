@@ -2,7 +2,6 @@ import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { FC } from "react";
 import { Chip } from "react-native-paper";
 
-import { buscarInstituicao } from "@/data/api/instituicoes";
 import { InstituicoesStackParams } from "@/navigation/Stack";
 import { ScreenContainer } from "@/screens/index.styles";
 import {
@@ -26,25 +25,25 @@ type DetalhesInstituicaoScreenProps = NativeStackScreenProps<InstituicoesStackPa
 const DetalhesInstituicaoScreen: FC<DetalhesInstituicaoScreenProps> = ({
     route
 }) => {
-    const instituicao = buscarInstituicao(route.params.idInstituicao);
+    const { instituicao } = route.params;
 
     return (
         <ScreenContainer>
-            <ImagemCapa source={{ uri: instituicao?.imagemCapa }} />
+            <ImagemCapa source={{ uri: instituicao.imagem_capa }} />
 
             <DadosInstituicao elevation={2}>
                 <ImagemPrincipal
                     size={90}
-                    source={{ uri: instituicao?.imagemPrincipal }}
+                    source={{ uri: instituicao.imagem_principal }}
                 />
 
                 <ContainerDadosInstituicao>
                     <NomeInstituicao variant="headlineSmall">
-                        {instituicao?.nome}
+                        {instituicao.nome}
                     </NomeInstituicao>
 
                     <AreasAtuacao>
-                        {instituicao?.areasAtuacao.map((area) => (
+                        {instituicao.areas_atuacao.map((area) => (
                             <Chip key={area}>{area}</Chip>
                         ))}
                     </AreasAtuacao>
@@ -53,14 +52,14 @@ const DetalhesInstituicaoScreen: FC<DetalhesInstituicaoScreenProps> = ({
                         <ContainerSiteLocalizacao>
                             <IconeSiteLocalizacao name="google-maps" size={20} />
                             <TextoSiteLocalizacao variant="titleMedium">
-                                {instituicao?.localizacao}
+                                {instituicao.localizacao}
                             </TextoSiteLocalizacao>
                         </ContainerSiteLocalizacao>
 
                         <ContainerSiteLocalizacao>
                             <IconeSiteLocalizacao name="earth" size={20} />
                             <TextoSiteLocalizacao variant="titleMedium">
-                                {instituicao?.enderecoSite}
+                                {instituicao.endereco_site}
                             </TextoSiteLocalizacao>
                         </ContainerSiteLocalizacao>
                     </SiteLocalizacao>
@@ -70,7 +69,7 @@ const DetalhesInstituicaoScreen: FC<DetalhesInstituicaoScreenProps> = ({
                             Sobre
                         </SecaoSobreInstituicao>
                         <TextoSobreInstituicao variant="bodyLarge">
-                            {instituicao?.biografia}
+                            {instituicao.biografia}
                         </TextoSobreInstituicao>
                     </ContainerSobreInstituicao>
                 </ContainerDadosInstituicao>
@@ -80,3 +79,4 @@ const DetalhesInstituicaoScreen: FC<DetalhesInstituicaoScreenProps> = ({
 };
 
 export { DetalhesInstituicaoScreen };
+

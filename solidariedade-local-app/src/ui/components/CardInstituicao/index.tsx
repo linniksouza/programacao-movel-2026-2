@@ -46,7 +46,7 @@ const CardInstituicao: FC<CardInstituicaoProps> = ({
     return (
         <Animated.View style={estiloAnimacao}>
             <CardInstituicaoStyled testID="container-card-instituicao">
-                <Avatar.Image source={{ uri: instituicao.imagemPrincipal }} />
+                <Avatar.Image source={{ uri: instituicao.imagem_principal }} />
 
                 <ContainerDadosInstituicao>
                     <NomeInstituicao variant="bodyLarge">
@@ -61,7 +61,6 @@ const CardInstituicao: FC<CardInstituicaoProps> = ({
                     </LocalizacaoInstituicao>
                 </ContainerDadosInstituicao>
 
-                
                 <IconButton
                     testID="btn-detalhes-instituicao"
                     icon="eye"
